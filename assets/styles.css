@@ -1,0 +1,27 @@
+.glass-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+}
+.custom-scrollbar::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+.perspective-1000 {
+    perspective: 1000px;
+}
+.transform-style-3d {
+    transform-style: preserve-3d;
+}
+.backface-hidden {
+    backface-visibility: hidden;
+}
+.rotate-y-180 {
+    transform: rotateY(180deg);
+}

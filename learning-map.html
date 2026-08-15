@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新手學習地圖｜海空運物流縮寫小幫手</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="assets/learning-map.css">
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
+    <header class="bg-indigo-950 text-white shadow-lg sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <a href="index.html" class="flex items-center gap-3 rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-white" aria-label="返回名詞查詢首頁">
+                <span class="bg-indigo-600 p-2.5 rounded-xl shadow-inner" aria-hidden="true">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                    </svg>
+                </span>
+                <span>
+                    <span class="block text-xl font-bold tracking-wide">海空運物流縮寫小幫手</span>
+                    <span class="block text-xs text-indigo-300 mt-0.5">新手學習地圖 MVP</span>
+                </span>
+            </a>
+            <nav class="flex flex-wrap items-center justify-center gap-2" aria-label="頁面導覽">
+                <a href="documents.html" class="inline-flex items-center bg-indigo-900/80 hover:bg-indigo-800 text-indigo-100 hover:text-white text-xs px-3 py-2 rounded-lg transition border border-indigo-700/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-white">
+                    文件範本
+                </a>
+                <a href="index.html" class="inline-flex items-center bg-white/10 hover:bg-white/20 text-white text-xs px-3 py-2 rounded-lg transition border border-indigo-700/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-white">
+                    名詞查詢
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full">
+        <section class="max-w-3xl mx-auto text-center mb-8" aria-labelledby="pageTitle">
+            <p class="text-xs font-bold tracking-[0.2em] text-indigo-600 uppercase mb-2">Beginner Learning Map</p>
+            <h1 id="pageTitle" class="text-3xl md:text-4xl font-black text-indigo-950">新手學習地圖</h1>
+            <p class="mt-3 text-sm md:text-base text-slate-600 leading-relaxed">
+                從流程、文件與名詞三個方向建立物流基礎。選擇任一子節點，即可查看主題簡介與建議學習重點。
+            </p>
+            <p class="mt-3 inline-flex items-center rounded-full bg-amber-50 border border-amber-200 px-3 py-1.5 text-xs text-amber-800">
+                目前為 MVP 示範內容，可在 data/learning-map.js 持續擴充
+            </p>
+        </section>
+
+        <section aria-labelledby="mapTitle">
+            <h2 id="mapTitle" class="sr-only">物流心智圖</h2>
+            <div class="map-root-card">
+                <span class="map-root-icon" aria-hidden="true">✦</span>
+                <div>
+                    <p class="text-xs font-semibold text-indigo-200">學習起點</p>
+                    <p class="text-lg font-bold">物流基礎知識</p>
+                </div>
+            </div>
+            <div id="mapBranches" class="map-branches" aria-label="物流學習主題"></div>
+        </section>
+
+        <section id="topicDetail" class="mt-8 bg-white border border-slate-200 rounded-3xl shadow-sm p-5 md:p-7 scroll-mt-28" aria-labelledby="detailTitle" aria-live="polite">
+            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3 border-b border-slate-200 pb-4">
+                <div>
+                    <p id="detailGroup" class="text-xs font-bold text-indigo-600 mb-1"></p>
+                    <h2 id="detailTitle" class="text-2xl font-black text-indigo-950"></h2>
+                </div>
+                <span class="self-start rounded-full bg-amber-50 border border-amber-200 px-3 py-1 text-xs font-semibold text-amber-800">
+                    示範內容，可擴充
+                </span>
+            </div>
+            <p id="detailSummary" class="mt-5 text-sm md:text-base text-slate-600 leading-7"></p>
+            <div class="grid md:grid-cols-2 gap-6 mt-6">
+                <div>
+                    <h3 class="text-sm font-bold text-slate-900 mb-3">建議學習重點</h3>
+                    <ul id="detailPoints" class="space-y-2 text-sm text-slate-600"></ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold text-slate-900 mb-3">相關名詞</h3>
+                    <div id="detailTerms" class="flex flex-wrap gap-2"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="customsProcesses" class="mt-10 scroll-mt-28" aria-labelledby="customsProcessesTitle">
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-5">
+                <div>
+                    <p class="text-xs font-bold tracking-[0.18em] text-indigo-600 uppercase mb-2">Customs Process Template</p>
+                    <h2 id="customsProcessesTitle" class="text-2xl md:text-3xl font-black text-indigo-950">報關流程示範</h2>
+                    <p class="mt-2 max-w-3xl text-sm leading-6 text-slate-600">
+                        以下內容提供新手理解作業順序，並作為未來流程圖與心智圖的資料基礎。實際文件及程序應依地區、貨品與承辦單位要求確認。
+                    </p>
+                </div>
+                <span class="self-start md:self-auto rounded-full bg-amber-50 border border-amber-200 px-3 py-1.5 text-xs font-semibold text-amber-800">
+                    結構化示範資料
+                </span>
+            </div>
+
+            <div id="processTabs" class="process-tabs" role="tablist" aria-label="選擇報關流程"></div>
+
+            <div id="processPanel" class="mt-5" role="tabpanel">
+                <div class="bg-white border border-slate-200 rounded-3xl shadow-sm p-5 md:p-7 mb-5">
+                    <h3 id="processFlowTitle" class="text-xl font-black text-indigo-950"></h3>
+                    <p id="processFlowSummary" class="mt-2 text-sm leading-6 text-slate-600"></p>
+                </div>
+                <ol id="processSteps" class="process-timeline" aria-label="報關流程步驟"></ol>
+            </div>
+        </section>
+
+        <noscript>
+            <p class="mt-6 rounded-2xl bg-red-50 border border-red-200 p-4 text-sm text-red-800">
+                此學習頁需要啟用 JavaScript 才能顯示節點內容。
+            </p>
+        </noscript>
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 text-center text-xs py-5 px-4">
+        本頁內容用於物流入門學習，正式作業仍應依主管機關與承辦單位最新規定確認。
+    </footer>
+
+    <script src="data/learning-map.js"></script>
+    <script src="data/customs-processes.js"></script>
+    <script src="assets/learning-map.js"></script>
+    <script src="assets/customs-processes.js"></script>
+</body>
+</html>
