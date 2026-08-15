@@ -1,0 +1,31 @@
+# Operating system and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local environment variables and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+secrets.json
+*.credentials.json
+*.secret
+
+# Local tooling and generated files
+node_modules/
+.netlify/
+*.log
+tmp/
+temp/
+
+# Never commit unredacted or private document sources
+documents/private/
+documents/originals/
+public/documents/originals/
+uploads/
