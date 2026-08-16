@@ -7,7 +7,7 @@
     <title>通關流程學習地圖｜海空運物流縮寫小幫手</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/styles.css">
-    <link rel="stylesheet" href="assets/clearance-map.css?v=1">
+    <link rel="stylesheet" href="assets/clearance-map.css?v=2">
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
     <header class="bg-indigo-950 text-white shadow-lg sticky top-0 z-40">
@@ -76,7 +76,7 @@
                             <p class="text-xs font-bold text-indigo-600 tracking-widest">STEP 2</p>
                             <h3 id="flowMapTitle" class="mt-1 text-lg font-black text-slate-950">流程主幹與分支</h3>
                         </div>
-                        <p class="text-xs text-slate-500">點擊節點查看說明</p>
+                        <p class="text-xs text-slate-500">箭頭代表實際銜接關係；點擊節點查看說明</p>
                     </div>
                     <div id="clearanceFlow" class="clearance-flow" aria-live="polite"></div>
                     <div id="guidedControls" class="clearance-guided-controls">
@@ -141,6 +141,6 @@
         </div>
     </footer>
 
-    <script src="assets/clearance-map.js?v=1"></script>
+    <script src="assets/clearance-map.js?v=2"></script>
 </body>
 </html>

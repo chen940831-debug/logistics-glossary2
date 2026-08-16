@@ -7,7 +7,9 @@
         viewMode: 'guided',
         currentStageIndex: 0,
         selectedStepId: null,
-        revealedAnswers: new Set()
+        revealedAnswers: new Set(),
+        stageObserver: null,
+        edgeDrawFrame: null
     };
 
     const elements = {
@@ -64,7 +66,7 @@
         const allowedStatuses = new Set(data.reviewStatuses || []);
 
         data.processes.forEach(process => {
-            if (!process.id || !Array.isArray(process.steps) || !Array.isArray(process.teachingStages)) {
+            if (!process.id || !Array.isArray(process.steps) || !Array.isArray(process.teachingStages) || !Array.isArray(process.flowEdges)) {
                 throw new Error(`Invalid clearance process: ${process.id || 'unknown'}`);
             }
 
@@ -95,6 +97,12 @@
                         throw new Error(`Broken nextStepId ${nextStepId} from ${step.id}`);
                     }
                 });
+            });
+
+            process.flowEdges.forEach(edge => {
+                if (!stepIds.has(edge.fromStepId) || !stepIds.has(edge.toStepId)) {
+                    throw new Error(`Broken flow edge ${edge.fromStepId} -> ${edge.toStepId} in ${process.id}`);
+                }
             });
 
             process.teachingStages.forEach(stage => {
@@ -287,7 +295,7 @@
         const section = document.createElement('section');
         section.className = 'clearance-stage';
         section.dataset.stageId = stage.id;
-        section.style.animationDelay = `${Math.min(index * 45, 270)}ms`;
+        section.dataset.stageIndex = String(index);
 
         const label = document.createElement('p');
         label.className = 'clearance-stage-label';
@@ -296,6 +304,7 @@
 
         const nodes = document.createElement('div');
         nodes.className = 'clearance-stage-nodes';
+        nodes.dataset.nodeCount = String(stage.nodeIds.length);
         stage.nodeIds.forEach(stepId => {
             const step = getStep(stepId);
             if (step) {
@@ -314,6 +323,202 @@
         return section;
     }
 
+    function createSvgElement(tagName, attributes = {}) {
+        const element = document.createElementNS('http://www.w3.org/2000/svg', tagName);
+        Object.entries(attributes).forEach(([name, value]) => element.setAttribute(name, value));
+        return element;
+    }
+
+    function getEdgeRoute(edge) {
+        const label = String(edge.label || '').toUpperCase();
+        if (label.startsWith('C1')) return 'c1';
+        if (label.startsWith('C2')) return 'c2';
+        if (label.startsWith('C3')) return 'c3';
+
+        const sourceStep = getStep(edge.fromStepId);
+        return sourceStep?.clearanceCode?.toLowerCase() || 'main';
+    }
+
+    function appendArrowMarkers(defs) {
+        ['main', 'c1', 'c2', 'c3'].forEach(route => {
+            const marker = createSvgElement('marker', {
+                id: `clearance-arrow-${route}`,
+                viewBox: '0 0 10 10',
+                refX: '8.5',
+                refY: '5',
+                markerWidth: '7',
+                markerHeight: '7',
+                orient: 'auto-start-reverse'
+            });
+            marker.appendChild(createSvgElement('path', {
+                d: 'M 0 0 L 10 5 L 0 10 z',
+                class: `clearance-arrow-head clearance-arrow-head-${route}`
+            }));
+            defs.appendChild(marker);
+        });
+    }
+
+    function createEdgeLabel(edge, route, sourcePoint, targetPoint) {
+        if (!edge.label) {
+            return null;
+        }
+
+        const labelX = sourcePoint.x + ((targetPoint.x - sourcePoint.x) * 0.52);
+        const labelY = sourcePoint.y + ((targetPoint.y - sourcePoint.y) * 0.46);
+        const group = createSvgElement('g', {
+            class: `clearance-edge-label clearance-edge-label-${route}`,
+            transform: `translate(${labelX} ${labelY})`,
+            'aria-hidden': 'true'
+        });
+        const width = Math.max(32, String(edge.label).length * 12 + 14);
+        group.appendChild(createSvgElement('rect', {
+            x: String(-width / 2),
+            y: '-11',
+            width: String(width),
+            height: '22',
+            rx: '11'
+        }));
+        const text = createSvgElement('text', {
+            x: '0',
+            y: '4',
+            'text-anchor': 'middle'
+        });
+        text.textContent = edge.label;
+        group.appendChild(text);
+        return group;
+    }
+
+    function syncEdgeVisibility() {
+        elements.flow.querySelectorAll('.clearance-edge-group').forEach(group => {
+            const targetStage = elements.flow.querySelector(`[data-stage-id="${group.dataset.targetStageId}"]`);
+            group.classList.toggle('is-visible', Boolean(targetStage?.classList.contains('is-visible')));
+        });
+    }
+
+    function drawFlowEdges() {
+        const graph = elements.flow.querySelector('.clearance-graph');
+        const layers = graph?.querySelector('.clearance-graph-layers');
+        if (!graph || !layers) {
+            return;
+        }
+
+        graph.querySelector('.clearance-edge-canvas')?.remove();
+        const graphRect = graph.getBoundingClientRect();
+        if (!graphRect.width || !graphRect.height) {
+            return;
+        }
+
+        const svg = createSvgElement('svg', {
+            class: 'clearance-edge-canvas',
+            viewBox: `0 0 ${graphRect.width} ${graphRect.height}`,
+            preserveAspectRatio: 'none',
+            'aria-hidden': 'true'
+        });
+        const defs = createSvgElement('defs');
+        appendArrowMarkers(defs);
+        svg.appendChild(defs);
+
+        state.activeProcess.flowEdges.forEach((edge, edgeIndex) => {
+            const sourceNode = graph.querySelector(`[data-step-id="${edge.fromStepId}"]`);
+            const targetNode = graph.querySelector(`[data-step-id="${edge.toStepId}"]`);
+            if (!sourceNode || !targetNode) {
+                return;
+            }
+
+            const sourceRect = sourceNode.getBoundingClientRect();
+            const targetRect = targetNode.getBoundingClientRect();
+            const sourcePoint = {
+                x: sourceRect.left - graphRect.left + (sourceRect.width / 2),
+                y: sourceRect.bottom - graphRect.top
+            };
+            const targetPoint = {
+                x: targetRect.left - graphRect.left + (targetRect.width / 2),
+                y: targetRect.top - graphRect.top
+            };
+            const verticalDistance = targetPoint.y - sourcePoint.y;
+            if (verticalDistance <= 0) {
+                return;
+            }
+
+            const route = getEdgeRoute(edge);
+            const controlOffset = Math.max(20, Math.min(verticalDistance * 0.46, 82));
+            const pathData = [
+                `M ${sourcePoint.x} ${sourcePoint.y}`,
+                `C ${sourcePoint.x} ${sourcePoint.y + controlOffset}`,
+                `${targetPoint.x} ${targetPoint.y - controlOffset}`,
+                `${targetPoint.x} ${targetPoint.y}`
+            ].join(' ');
+            const group = createSvgElement('g', {
+                class: `clearance-edge-group clearance-edge-group-${route}`
+            });
+            group.dataset.targetStageId = targetNode.closest('.clearance-stage')?.dataset.stageId || '';
+            group.style.setProperty('--edge-delay', `${Math.min(edgeIndex * 28, 360)}ms`);
+
+            const path = createSvgElement('path', {
+                d: pathData,
+                class: `clearance-edge clearance-edge-${route}`,
+                'marker-end': `url(#clearance-arrow-${route})`,
+                'vector-effect': 'non-scaling-stroke'
+            });
+            group.appendChild(path);
+            const label = createEdgeLabel(edge, route, sourcePoint, targetPoint);
+            if (label) {
+                group.appendChild(label);
+            }
+            svg.appendChild(group);
+        });
+
+        graph.prepend(svg);
+        syncEdgeVisibility();
+    }
+
+    function scheduleEdgeDraw() {
+        if (state.edgeDrawFrame) {
+            cancelAnimationFrame(state.edgeDrawFrame);
+        }
+        state.edgeDrawFrame = requestAnimationFrame(() => {
+            state.edgeDrawFrame = requestAnimationFrame(() => {
+                drawFlowEdges();
+                state.edgeDrawFrame = null;
+            });
+        });
+    }
+
+    function setupStageReveal() {
+        state.stageObserver?.disconnect();
+        state.stageObserver = null;
+        const stages = elements.flow.querySelectorAll('.clearance-stage');
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (state.viewMode === 'guided' || reduceMotion || !('IntersectionObserver' in window)) {
+            stages.forEach(stage => stage.classList.add('is-visible'));
+            syncEdgeVisibility();
+            return;
+        }
+
+        state.stageObserver = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) {
+                    return;
+                }
+                entry.target.classList.add('is-visible');
+                state.stageObserver.unobserve(entry.target);
+            });
+            syncEdgeVisibility();
+        }, {
+            rootMargin: '0px 0px -8% 0px',
+            threshold: 0.12
+        });
+
+        stages.forEach((stage, index) => {
+            if (index === 0) {
+                stage.classList.add('is-visible');
+            } else {
+                state.stageObserver.observe(stage);
+            }
+        });
+    }
+
     function renderFlow() {
         if (!state.activeProcess) {
             return;
@@ -325,15 +530,18 @@
             ? stages
             : stages.slice(0, state.currentStageIndex + 1);
 
+        const graph = document.createElement('div');
+        graph.className = 'clearance-graph';
+        const layers = document.createElement('div');
+        layers.className = 'clearance-graph-layers';
+
         visibleStages.forEach((stage, index) => {
-            elements.flow.appendChild(createStage(stage, index, index === visibleStages.length - 1));
-            if (index < visibleStages.length - 1) {
-                const connector = document.createElement('div');
-                connector.className = 'clearance-stage-connector';
-                connector.setAttribute('aria-hidden', 'true');
-                elements.flow.appendChild(connector);
-            }
+            layers.appendChild(createStage(stage, index, index === visibleStages.length - 1));
         });
+        graph.appendChild(layers);
+        elements.flow.appendChild(graph);
+        setupStageReveal();
+        scheduleEdgeDraw();
 
         const currentStage = stages[state.currentStageIndex];
         const promptNeedsAnswer = state.viewMode === 'guided'
@@ -459,6 +667,7 @@
         elements.fullModeButton.addEventListener('click', () => setViewMode('full'));
         elements.previousButton.addEventListener('click', () => moveStage(-1));
         elements.nextButton.addEventListener('click', () => moveStage(1));
+        window.addEventListener('resize', scheduleEdgeDraw, { passive: true });
     }
 
     async function initializeClearanceMap() {
