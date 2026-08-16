@@ -206,15 +206,32 @@
 
 .clearance-flow {
     position: relative;
+    min-height: 8rem;
+}
+
+.clearance-graph {
+    position: relative;
+    isolation: isolate;
+}
+
+.clearance-graph-layers {
+    position: relative;
+    z-index: 2;
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-    gap: 0;
+    gap: 5rem;
 }
 
 .clearance-stage {
     position: relative;
-    animation: clearance-slide-up 280ms ease both;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 320ms ease, transform 320ms ease;
+}
+
+.clearance-stage.is-visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .clearance-stage-label {
@@ -228,37 +245,124 @@
 
 .clearance-stage-nodes {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
-    gap: 0.75rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(0.75rem, 2vw, 1.5rem);
+    align-items: stretch;
 }
 
-.clearance-stage-connector {
-    display: flex;
-    height: 2.5rem;
-    align-items: center;
+.clearance-stage-nodes[data-node-count="1"] {
+    grid-template-columns: minmax(14rem, 28rem);
     justify-content: center;
-    color: #334155;
 }
 
-.clearance-stage-connector::before {
-    content: "";
-    width: 2px;
-    height: 1.8rem;
-    background: #64748b;
-    animation: clearance-line-grow 320ms ease both;
+.clearance-stage-nodes[data-node-count="2"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(100%, 44rem);
+    margin-inline: auto;
 }
 
-.clearance-stage-connector::after {
-    content: "";
+.clearance-edge-canvas {
     position: absolute;
-    margin-top: 1.8rem;
-    border-top: 0.4rem solid #64748b;
-    border-right: 0.35rem solid transparent;
-    border-left: 0.35rem solid transparent;
+    z-index: 1;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+}
+
+.clearance-edge-group {
+    opacity: 0;
+    transition: opacity 220ms ease var(--edge-delay, 0ms);
+}
+
+.clearance-edge-group.is-visible {
+    opacity: 1;
+}
+
+.clearance-edge {
+    fill: none;
+    stroke: #475569;
+    stroke-width: 2.25;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+}
+
+.clearance-edge-group.is-visible .clearance-edge {
+    animation: clearance-path-grow 480ms ease var(--edge-delay, 0ms) forwards;
+}
+
+.clearance-edge-c1 {
+    stroke: #15803d;
+}
+
+.clearance-edge-c2 {
+    stroke: #a16207;
+}
+
+.clearance-edge-c3 {
+    stroke: #b91c1c;
+}
+
+.clearance-arrow-head-main {
+    fill: #475569;
+}
+
+.clearance-arrow-head-c1 {
+    fill: #15803d;
+}
+
+.clearance-arrow-head-c2 {
+    fill: #a16207;
+}
+
+.clearance-arrow-head-c3 {
+    fill: #b91c1c;
+}
+
+.clearance-edge-label rect {
+    fill: #fff;
+    stroke: #cbd5e1;
+}
+
+.clearance-edge-label text {
+    fill: #334155;
+    font-size: 10px;
+    font-weight: 900;
+}
+
+.clearance-edge-label-c1 rect {
+    fill: #f0fdf4;
+    stroke: #86efac;
+}
+
+.clearance-edge-label-c1 text {
+    fill: #166534;
+}
+
+.clearance-edge-label-c2 rect {
+    fill: #fffbeb;
+    stroke: #fde68a;
+}
+
+.clearance-edge-label-c2 text {
+    fill: #854d0e;
+}
+
+.clearance-edge-label-c3 rect {
+    fill: #fff1f2;
+    stroke: #fecaca;
+}
+
+.clearance-edge-label-c3 text {
+    fill: #9f1239;
 }
 
 .clearance-node {
     position: relative;
+    z-index: 2;
     width: 100%;
     min-height: 6.25rem;
     border: 1px solid #cbd5e1;
@@ -515,25 +619,12 @@
     text-align: center;
 }
 
-@keyframes clearance-slide-up {
+@keyframes clearance-path-grow {
     from {
-        opacity: 0;
-        transform: translateY(8px);
+        stroke-dashoffset: 1000;
     }
     to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes clearance-line-grow {
-    from {
-        transform: scaleY(0);
-        transform-origin: top;
-    }
-    to {
-        transform: scaleY(1);
-        transform-origin: top;
+        stroke-dashoffset: 0;
     }
 }
 
@@ -570,6 +661,17 @@
 
     .clearance-stage-nodes {
         grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .clearance-stage-nodes[data-node-count="1"],
+    .clearance-stage-nodes[data-node-count="2"] {
+        grid-template-columns: 1fr;
+        width: 100%;
+    }
+
+    .clearance-graph-layers {
+        gap: 4.25rem;
     }
 
     .clearance-source-panel {
@@ -583,9 +685,15 @@
     .clearance-node,
     .clearance-term-link,
     .clearance-stage,
-    .clearance-stage-connector::before {
+    .clearance-edge-group,
+    .clearance-edge {
         animation: none;
         scroll-behavior: auto;
         transition: none;
+    }
+
+    .clearance-edge {
+        stroke-dasharray: none;
+        stroke-dashoffset: 0;
     }
 }

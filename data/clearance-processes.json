@@ -44,11 +44,31 @@
           }
         },
         { "id": "air-stage-04", "title": "C1／C2／C3", "nodeIds": ["air-c1", "air-c2", "air-c3"] },
-        { "id": "air-stage-05", "title": "審核與查驗", "nodeIds": ["air-cargo-examination"] },
-        { "id": "air-stage-06", "title": "分估計稅", "nodeIds": ["air-valuation"] },
-        { "id": "air-stage-07", "title": "繳稅", "nodeIds": ["air-duty-payment"] },
-        { "id": "air-stage-08", "title": "放行", "nodeIds": ["air-release"] },
-        { "id": "air-stage-09", "title": "提領", "nodeIds": ["air-pickup"] }
+        { "id": "air-stage-05", "title": "補送書面報單", "nodeIds": ["air-paper-followup"] },
+        { "id": "air-stage-06", "title": "查驗貨物", "nodeIds": ["air-cargo-examination"] },
+        { "id": "air-stage-07", "title": "分估計稅", "nodeIds": ["air-valuation"] },
+        { "id": "air-stage-08", "title": "繳稅", "nodeIds": ["air-duty-payment"] },
+        { "id": "air-stage-09", "title": "放行", "nodeIds": ["air-release"] },
+        { "id": "air-stage-10", "title": "提領", "nodeIds": ["air-pickup"] }
+      ],
+      "flowEdges": [
+        { "fromStepId": "air-declaration", "toStepId": "air-network" },
+        { "fromStepId": "air-manifest", "toStepId": "air-network" },
+        { "fromStepId": "air-paper-declaration", "toStepId": "air-registration" },
+        { "fromStepId": "air-network", "toStepId": "air-selectivity" },
+        { "fromStepId": "air-registration", "toStepId": "air-selectivity" },
+        { "fromStepId": "air-selectivity", "toStepId": "air-c1", "label": "C1" },
+        { "fromStepId": "air-selectivity", "toStepId": "air-c2", "label": "C2" },
+        { "fromStepId": "air-selectivity", "toStepId": "air-c3", "label": "C3" },
+        { "fromStepId": "air-c1", "toStepId": "air-duty-payment", "label": "免審免驗" },
+        { "fromStepId": "air-c2", "toStepId": "air-paper-followup", "label": "C2" },
+        { "fromStepId": "air-c3", "toStepId": "air-paper-followup", "label": "C3" },
+        { "fromStepId": "air-paper-followup", "toStepId": "air-valuation", "label": "C2" },
+        { "fromStepId": "air-paper-followup", "toStepId": "air-cargo-examination", "label": "C3" },
+        { "fromStepId": "air-cargo-examination", "toStepId": "air-valuation" },
+        { "fromStepId": "air-valuation", "toStepId": "air-duty-payment" },
+        { "fromStepId": "air-duty-payment", "toStepId": "air-release" },
+        { "fromStepId": "air-release", "toStepId": "air-pickup" }
       ],
       "steps": [
         {
@@ -200,7 +220,7 @@
             "newbieTip": "先確認補送期限及文件內容是否與線上申報一致。"
           },
           "relatedTerms": [{ "label": "C/I", "query": "C/I" }],
-          "nextStepIds": ["air-valuation"],
+          "nextStepIds": ["air-paper-followup"],
           "reviewStatus": "verified",
           "differenceNote": "",
           "uncertainties": []
@@ -220,14 +240,33 @@
             "newbieTip": "C3 可能採先驗後估或先估後驗；倉庫驗放屬後者可能情境之一。"
           },
           "relatedTerms": [{ "label": "MAWB", "query": "MAWB" }, { "label": "HAWB", "query": "HAWB" }],
-          "nextStepIds": ["air-cargo-examination"],
+          "nextStepIds": ["air-paper-followup"],
           "reviewStatus": "verified",
           "differenceNote": "部分案件可能採船機邊驗放或倉庫驗放，順序會與主幹不同。",
           "uncertainties": []
         },
         {
-          "id": "air-cargo-examination",
+          "id": "air-paper-followup",
           "displayOrder": 10,
+          "nodeType": "action",
+          "title": "（連線部分）報關人翌日補送書面報單",
+          "englishTitle": "Hard Copy Declaration Submitted by Declarant",
+          "shortDescription": "C2、C3 連線案件由報關人翌日補送書面報單。",
+          "detail": {
+            "whatHappens": "連線申報核定為 C2 或 C3 後，報關人翌日補送書面報單及相關文件，供海關辦理後續審核或查驗。",
+            "actors": ["Declarant", "Customs Broker", "Customs"],
+            "documents": ["書面進口報單", "相關申報文件"],
+            "newbieTip": "此區塊只適用於照片標示的連線部分；補送內容應與連線申報資料一致。"
+          },
+          "relatedTerms": [{ "label": "C/I", "query": "C/I" }, { "label": "P/L", "query": "P/L" }],
+          "nextStepIds": ["air-valuation", "air-cargo-examination"],
+          "reviewStatus": "verified",
+          "differenceNote": "C2 前往分類估價；C3 先前往貨物查驗，再進入分類估價。",
+          "uncertainties": []
+        },
+        {
+          "id": "air-cargo-examination",
+          "displayOrder": 11,
           "nodeType": "action",
           "title": "查驗貨物",
           "englishTitle": "Cargo Examination",
@@ -246,7 +285,7 @@
         },
         {
           "id": "air-valuation",
-          "displayOrder": 11,
+          "displayOrder": 12,
           "nodeType": "action",
           "title": "分類估價及稅費計算",
           "englishTitle": "Tariff Classification, Valuation & Duty Calculation",
@@ -265,7 +304,7 @@
         },
         {
           "id": "air-duty-payment",
-          "displayOrder": 12,
+          "displayOrder": 13,
           "nodeType": "action",
           "title": "繳納進口稅款",
           "englishTitle": "Duty Payment",
@@ -284,7 +323,7 @@
         },
         {
           "id": "air-release",
-          "displayOrder": 13,
+          "displayOrder": 14,
           "nodeType": "terminal",
           "title": "放行",
           "englishTitle": "Release of Cargo",
@@ -303,7 +342,7 @@
         },
         {
           "id": "air-pickup",
-          "displayOrder": 14,
+          "displayOrder": 15,
           "nodeType": "terminal",
           "title": "提領貨物",
           "englishTitle": "Taking Delivery of Cargo",
@@ -359,6 +398,17 @@
         { "id": "export-stage-04", "title": "貨物查驗", "nodeIds": ["export-examination"] },
         { "id": "export-stage-05", "title": "分類估價", "nodeIds": ["export-valuation"] },
         { "id": "export-stage-06", "title": "放行", "nodeIds": ["export-release"] }
+      ],
+      "flowEdges": [
+        { "fromStepId": "export-declaration", "toStepId": "export-selectivity" },
+        { "fromStepId": "export-selectivity", "toStepId": "export-c1", "label": "C1" },
+        { "fromStepId": "export-selectivity", "toStepId": "export-c2", "label": "C2" },
+        { "fromStepId": "export-selectivity", "toStepId": "export-c3", "label": "C3" },
+        { "fromStepId": "export-c1", "toStepId": "export-release", "label": "免審免驗" },
+        { "fromStepId": "export-c2", "toStepId": "export-valuation", "label": "文件審核" },
+        { "fromStepId": "export-c3", "toStepId": "export-examination", "label": "查驗" },
+        { "fromStepId": "export-examination", "toStepId": "export-valuation" },
+        { "fromStepId": "export-valuation", "toStepId": "export-release" }
       ],
       "steps": [
         {
@@ -558,11 +608,31 @@
           }
         },
         { "id": "bonded-stage-04", "title": "C1／C2／C3", "nodeIds": ["bonded-c1", "bonded-c2", "bonded-c3"] },
-        { "id": "bonded-stage-05", "title": "補送與查驗", "nodeIds": ["bonded-paper-followup", "bonded-examination"] },
-        { "id": "bonded-stage-06", "title": "分類估價課稅", "nodeIds": ["bonded-valuation"] },
-        { "id": "bonded-stage-07", "title": "稅款程序", "nodeIds": ["bonded-duty-payment"] },
-        { "id": "bonded-stage-08", "title": "放行與准單", "nodeIds": ["bonded-release"] },
-        { "id": "bonded-stage-09", "title": "提領或進出倉", "nodeIds": ["bonded-pickup"] }
+        { "id": "bonded-stage-05", "title": "補送書面報單", "nodeIds": ["bonded-paper-followup"] },
+        { "id": "bonded-stage-06", "title": "查驗貨物", "nodeIds": ["bonded-examination"] },
+        { "id": "bonded-stage-07", "title": "分類估價課稅", "nodeIds": ["bonded-valuation"] },
+        { "id": "bonded-stage-08", "title": "稅款程序", "nodeIds": ["bonded-duty-payment"] },
+        { "id": "bonded-stage-09", "title": "放行與准單", "nodeIds": ["bonded-release"] },
+        { "id": "bonded-stage-10", "title": "提領或進出倉", "nodeIds": ["bonded-pickup"] }
+      ],
+      "flowEdges": [
+        { "fromStepId": "bonded-declaration", "toStepId": "bonded-network" },
+        { "fromStepId": "bonded-manifest", "toStepId": "bonded-network" },
+        { "fromStepId": "bonded-paper-declaration", "toStepId": "bonded-registration" },
+        { "fromStepId": "bonded-network", "toStepId": "bonded-selectivity" },
+        { "fromStepId": "bonded-registration", "toStepId": "bonded-selectivity" },
+        { "fromStepId": "bonded-selectivity", "toStepId": "bonded-c1", "label": "C1" },
+        { "fromStepId": "bonded-selectivity", "toStepId": "bonded-c2", "label": "C2" },
+        { "fromStepId": "bonded-selectivity", "toStepId": "bonded-c3", "label": "C3" },
+        { "fromStepId": "bonded-c1", "toStepId": "bonded-duty-payment", "label": "C1" },
+        { "fromStepId": "bonded-c2", "toStepId": "bonded-paper-followup", "label": "C2" },
+        { "fromStepId": "bonded-c3", "toStepId": "bonded-paper-followup", "label": "C3" },
+        { "fromStepId": "bonded-paper-followup", "toStepId": "bonded-valuation", "label": "C2" },
+        { "fromStepId": "bonded-paper-followup", "toStepId": "bonded-examination", "label": "C3" },
+        { "fromStepId": "bonded-examination", "toStepId": "bonded-valuation" },
+        { "fromStepId": "bonded-valuation", "toStepId": "bonded-duty-payment" },
+        { "fromStepId": "bonded-duty-payment", "toStepId": "bonded-release" },
+        { "fromStepId": "bonded-release", "toStepId": "bonded-pickup" }
       ],
       "steps": [
         {
@@ -607,7 +677,7 @@
           "id": "bonded-paper-declaration",
           "displayOrder": 3,
           "nodeType": "input",
-          "title": "非連線報關人投遞書面報單",
+          "title": "報關人投遞書面報單",
           "englishTitle": "Hard Copy Declaration",
           "shortDescription": "非連線案件以書面資料交由海關收單建檔。",
           "detail": {
@@ -664,7 +734,7 @@
           "id": "bonded-selectivity",
           "displayOrder": 6,
           "nodeType": "decision",
-          "title": "海關電腦篩選通關方式",
+          "title": "海關電腦（專家系統篩選通關方式）",
           "englishTitle": "Clearance Type Selectivity",
           "shortDescription": "海關系統核定 C1、C2 或 C3。",
           "detail": {
