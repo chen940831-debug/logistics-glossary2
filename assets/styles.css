@@ -2,6 +2,67 @@
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(12px);
 }
+
+/* Reading-first type scale: keep secondary information legible without
+   competing with the term code or primary action. */
+body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", system-ui, sans-serif;
+    color: #1e293b;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+header h1 {
+    letter-spacing: 0.015em;
+}
+
+.glass-card {
+    border-color: #dbe3ef;
+}
+
+.glass-card:hover {
+    border-color: #b8c5df;
+}
+
+.glass-card h2 {
+    color: #475569 !important;
+    font-size: 0.875rem !important;
+    line-height: 1.4;
+}
+
+.glass-card > div:first-child > p {
+    color: #334155 !important;
+    font-size: 0.9375rem !important;
+    line-height: 1.7;
+}
+
+.glass-card .bg-slate-50 p {
+    color: #475569 !important;
+    font-size: 0.8125rem !important;
+    line-height: 1.55;
+}
+
+.glass-card .bg-slate-50 div {
+    color: #334155 !important;
+    font-size: 0.8125rem !important;
+}
+
+#resultsContainer > .glass-card > div:last-child > button {
+    font-size: 0.875rem;
+    min-height: 2.5rem;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #64748b;
+    opacity: 1;
+}
+
+@media (max-width: 640px) {
+    .glass-card > div:first-child > p {
+        font-size: 0.875rem !important;
+    }
+}
 .custom-scrollbar::-webkit-scrollbar {
     height: 6px;
     width: 6px;

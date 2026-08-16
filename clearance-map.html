@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="以新手教學與完整流程兩種模式學習空運進口、出口及保稅貨物通關。">
+    <title>通關流程學習地圖｜海空運物流縮寫小幫手</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="assets/clearance-map.css?v=1">
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
+    <header class="bg-indigo-950 text-white shadow-lg sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <a href="index.html" class="flex items-center gap-3 rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-white" aria-label="返回名詞查詢首頁">
+                <span class="bg-indigo-600 p-2.5 rounded-xl shadow-inner" aria-hidden="true">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v18m0-18l-4 4m4-4l4 4M5 11h14M5 17h14"></path>
+                    </svg>
+                </span>
+                <span>
+                    <span class="block text-xl font-bold tracking-wide">通關流程學習地圖</span>
+                    <span class="block text-xs text-indigo-300 mt-0.5">Clearance Learning Map</span>
+                </span>
+            </a>
+            <nav class="flex flex-wrap items-center justify-center gap-2" aria-label="頁面導覽">
+                <a href="learning-map.html" class="clearance-nav-link">新手學習地圖</a>
+                <a href="documents.html" class="clearance-nav-link">文件範本</a>
+                <a href="index.html" class="clearance-nav-link clearance-nav-link-primary">名詞查詢</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full">
+        <section class="max-w-3xl mx-auto text-center" aria-labelledby="clearancePageTitle">
+            <p class="text-xs font-bold tracking-[0.2em] text-indigo-600 uppercase mb-2">Clearance Training</p>
+            <h1 id="clearancePageTitle" class="text-3xl md:text-4xl font-black text-slate-950">從主幹開始理解通關流程</h1>
+            <p class="mt-3 text-sm md:text-base text-slate-600 leading-relaxed">
+                先選擇流程，再用新手模式逐步學習，或直接查看完整流程。點擊任一節點可閱讀角色、文件與提醒。
+            </p>
+        </section>
+
+        <section class="mt-8" aria-labelledby="processSelectorTitle">
+            <div class="flex items-end justify-between gap-4 mb-4">
+                <div>
+                    <p class="text-xs font-bold text-indigo-600 tracking-widest">STEP 1</p>
+                    <h2 id="processSelectorTitle" class="mt-1 text-xl font-black text-slate-950">選擇通關流程</h2>
+                </div>
+                <p id="clearanceDataStatus" class="text-xs text-slate-500" role="status" aria-live="polite">正在載入流程資料…</p>
+            </div>
+            <div id="clearanceProcessCards" class="clearance-process-cards"></div>
+        </section>
+
+        <section id="clearanceWorkspace" class="mt-8 hidden" aria-labelledby="activeProcessTitle">
+            <div class="clearance-workspace-header">
+                <div>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <p id="activeProcessEnglishTitle" class="text-xs font-bold tracking-widest text-indigo-600 uppercase"></p>
+                        <span id="activeProcessStatus" class="clearance-status-badge"></span>
+                    </div>
+                    <h2 id="activeProcessTitle" class="mt-1 text-2xl md:text-3xl font-black text-slate-950"></h2>
+                    <p id="activeProcessDescription" class="mt-2 text-sm leading-6 text-slate-600 max-w-3xl"></p>
+                </div>
+                <div class="clearance-view-switch" role="group" aria-label="流程顯示模式">
+                    <button id="guidedModeButton" type="button" class="clearance-view-button" aria-pressed="true">開始教學</button>
+                    <button id="fullModeButton" type="button" class="clearance-view-button" aria-pressed="false">查看完整流程</button>
+                </div>
+            </div>
+
+            <div id="guidedProgress" class="clearance-guided-progress" aria-live="polite"></div>
+
+            <div class="clearance-learning-layout">
+                <section class="clearance-map-panel" aria-labelledby="flowMapTitle">
+                    <div class="clearance-panel-heading">
+                        <div>
+                            <p class="text-xs font-bold text-indigo-600 tracking-widest">STEP 2</p>
+                            <h3 id="flowMapTitle" class="mt-1 text-lg font-black text-slate-950">流程主幹與分支</h3>
+                        </div>
+                        <p class="text-xs text-slate-500">點擊節點查看說明</p>
+                    </div>
+                    <div id="clearanceFlow" class="clearance-flow" aria-live="polite"></div>
+                    <div id="guidedControls" class="clearance-guided-controls">
+                        <button id="previousStageButton" type="button" class="clearance-control-button clearance-control-secondary">← 上一步</button>
+                        <button id="nextStageButton" type="button" class="clearance-control-button clearance-control-primary">下一步 →</button>
+                    </div>
+                </section>
+
+                <aside id="clearanceDetailPanel" class="clearance-detail-panel" aria-labelledby="detailTitle" tabindex="-1">
+                    <p class="text-xs font-bold text-indigo-600 tracking-widest">LEVEL 3</p>
+                    <h3 id="detailTitle" class="mt-1 text-xl font-black text-slate-950">選擇一個流程節點</h3>
+                    <p id="detailEnglishTitle" class="mt-1 text-xs font-semibold text-slate-500"></p>
+                    <p id="detailSummary" class="mt-3 text-sm leading-6 text-slate-600">節點內容會顯示在這裡。</p>
+
+                    <div id="detailContent" class="hidden">
+                        <section class="clearance-detail-section">
+                            <h4>這一步在做什麼？</h4>
+                            <p id="detailWhatHappens"></p>
+                        </section>
+                        <section class="clearance-detail-section">
+                            <h4>誰會參與？</h4>
+                            <div id="detailActors" class="clearance-chip-list"></div>
+                        </section>
+                        <section class="clearance-detail-section">
+                            <h4>可能看到哪些文件？</h4>
+                            <div id="detailDocuments" class="clearance-chip-list"></div>
+                        </section>
+                        <section class="clearance-detail-section clearance-tip-section">
+                            <h4>新手提醒</h4>
+                            <p id="detailTip"></p>
+                        </section>
+                        <section id="differenceSection" class="clearance-detail-section clearance-difference-section hidden">
+                            <h4>流程差異</h4>
+                            <p id="detailDifference"></p>
+                        </section>
+                        <section class="clearance-detail-section">
+                            <h4>相關名詞</h4>
+                            <div id="detailTerms" class="clearance-term-list"></div>
+                        </section>
+                    </div>
+                </aside>
+            </div>
+
+            <section class="clearance-source-panel" aria-labelledby="sourceTitle">
+                <div>
+                    <h3 id="sourceTitle" class="text-sm font-black text-slate-900">資料來源與複核</h3>
+                    <p id="sourceReviewDate" class="mt-1 text-xs text-slate-500"></p>
+                </div>
+                <ul id="sourceList" class="clearance-source-list"></ul>
+            </section>
+        </section>
+
+        <section id="clearanceLoadError" class="clearance-error-state hidden" role="alert">
+            <h2 class="text-lg font-black">流程資料暫時無法載入</h2>
+            <p class="mt-2 text-sm">請重新整理頁面；若直接開啟本機 HTML，請改用本機 HTTP 伺服器或 Netlify 預覽。</p>
+        </section>
+    </main>
+
+    <footer class="bg-slate-950 text-slate-300 mt-10">
+        <div class="max-w-7xl mx-auto px-4 py-6 text-center text-xs leading-6">
+            本頁內容供新人教育訓練使用，實際報關作業請以海關最新規定、公司 SOP 與正式作業系統為準。
+        </div>
+    </footer>
+
+    <script src="assets/clearance-map.js?v=1"></script>
+</body>
+</html>

@@ -190,7 +190,7 @@ function renderCards(data = dictionary) {
                             <span class="text-2xl font-black text-indigo-950 tracking-tight">${item.code}</span>
                             ${item.incoGroup ? `<span class="text-[10px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-bold">${item.incoGroup}組</span>` : ''}
                         </div>
-                        <h2 class="text-xs font-semibold text-slate-500 mt-0.5">${item.fullName}</h2>
+                        <h2 class="text-sm font-semibold text-slate-600 mt-0.5">${item.fullName}</h2>
                     </div>
 
                     <div class="flex items-center gap-1.5">
@@ -213,7 +213,7 @@ function renderCards(data = dictionary) {
                 </div>
 
                 <!-- Brief Explanation -->
-                <p class="text-xs text-slate-600 leading-relaxed line-clamp-3 mb-4">
+                <p class="text-sm text-slate-700 leading-relaxed line-clamp-3 mb-4">
                     ${item.explanation}
                 </p>
             </div>
@@ -222,16 +222,16 @@ function renderCards(data = dictionary) {
             <div>
                 ${item.scenario ? `
                 <div class="bg-slate-50 rounded-xl p-2.5 border border-slate-200/80 mb-3">
-                    <div class="text-[11px] font-bold text-slate-700 mb-0.5 flex items-center gap-1">
+                    <div class="text-xs font-bold text-slate-800 mb-0.5 flex items-center gap-1">
                         💬 實務對話/情境：
                     </div>
-                    <p class="text-[11px] text-slate-600 line-clamp-2">
+                    <p class="text-xs text-slate-700 line-clamp-2">
                         ${item.scenario}
                     </p>
                 </div>
                 ` : ''}
 
-                <button onclick="openDetailModal('${item.code}')" class="w-full text-center text-xs bg-indigo-900 hover:bg-indigo-800 text-white font-medium py-2 rounded-xl transition flex items-center justify-center gap-1">
+                <button onclick="openDetailModal('${item.code}')" class="w-full text-center text-sm bg-indigo-900 hover:bg-indigo-800 text-white font-semibold py-2 rounded-xl transition flex items-center justify-center gap-1">
                     查看完整細節與責任轉移
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>

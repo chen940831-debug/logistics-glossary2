@@ -11,6 +11,8 @@
 - 翻牌學習模式
 - 瀏覽器本機收藏
 - 錯誤回報介面
+- 物流產業版圖與公開資料規模比較
+- 通關流程學習地圖，支援新手教學與完整流程模式
 
 ## 技術
 
@@ -18,6 +20,16 @@
 - JavaScript
 - Tailwind CSS CDN
 - LocalStorage
+
+## 市場資料維護
+
+`data/market-data.json` 保存物流產業版圖的完整研究資料；`data/market-data.js` 是供直接開啟 HTML 時使用的台灣三家公司 fallback。更新台灣比較數值時必須同步更新兩個檔案、來源網址與查閱日期；不同年份、範圍或單位不得合併成市占率。
+
+## 通關流程資料維護
+
+`data/clearance-processes.json` 保存空運進口、出口及保稅貨物通關資料。流程關係以 `entryStepIds` 與 `nextStepIds` 表示，畫面順序不得取代節點關係。每筆流程與步驟須保留來源、複核日期及 `reviewStatus`。
+
+通關頁使用 `fetch` 載入 JSON。直接部署至 Netlify 可正常運作；本機檢視請透過 HTTP 伺服器開啟，避免瀏覽器阻擋 `file://` 讀取 JSON。
 
 ## 注意
 
