@@ -2,9 +2,130 @@ window.MARKET_DATA_FALLBACK = {
     schemaVersion: '1.0.0',
     moduleId: 'logistics-market-map',
     title: '物流產業版圖',
-    lastUpdated: '2026-08-15',
-    accessedDate: '2026-08-15',
+    lastUpdated: '2026-08-16',
+    accessedDate: '2026-08-16',
     datasets: [
+        {
+            datasetId: 'international-logistics-revenue-2025',
+            section: 'international-revenue',
+            title: '國際主要物流業者公開營收比較',
+            subtitle: '2025 年營收換算為十億美元',
+            year: 2025,
+            marketDefinition: '六家國際物流業者或指定物流事業部的公開營收規模',
+            unit: 'USD billion',
+            unitLabel: '十億美元',
+            isMarketShare: false,
+            coveragePercent: null,
+            chartType: 'vertical-bar',
+            scopeStatus: 'mixed-group-and-segment',
+            methodologyNote: 'DSV、Kuehne+Nagel、Nippon Express 與 Expeditors 採集團營收；DHL 採 Global Forwarding, Freight 事業部外部營收；CEVA 採 CMA CGM 物流事業營收。非美元資料依歐洲中央銀行 2025 年平均參考匯率換算，1 歐元兌 1.1300 美元、169.07 日圓、7.4634 丹麥克朗及 0.9370 瑞士法郎。',
+            notice: '各公司揭露層級與業務組合不完全一致。此圖僅供營收規模參考，不代表貨運承攬市場排名或市占率。',
+            companies: [
+                {
+                    name: 'DSV',
+                    value: 37.45,
+                    rank: 1,
+                    originalValue: 247.331,
+                    originalUnit: 'DKK billion',
+                    sourceNote: '集團營收 2,473.31 億丹麥克朗；Schenker 自 2025 年 4 月 30 日起納入合併。',
+                    source: {
+                        publisher: 'DSV A/S',
+                        title: 'DSV 2025 Annual Report',
+                        url: 'https://investor.dsv.com/news-releases/news-release-details/dsv-1164-2025-annual-report',
+                        publishedDate: '2026-02-04',
+                        accessedDate: '2026-08-16'
+                    }
+                },
+                {
+                    name: 'Kuehne+Nagel',
+                    value: 29.55,
+                    rank: 2,
+                    originalValue: 24.5,
+                    originalUnit: 'CHF billion',
+                    sourceNote: '集團淨營收 245 億瑞士法郎。',
+                    source: {
+                        publisher: 'Kuehne+Nagel',
+                        title: 'Kuehne+Nagel reports solid earnings in 2025',
+                        url: 'https://newsroom.kuehne-nagel.com/kuehnenagel-reports-solid-earnings-in-2025/',
+                        publishedDate: '2026',
+                        accessedDate: '2026-08-16'
+                    }
+                },
+                {
+                    name: 'DHL Global Forwarding, Freight',
+                    value: 19.55,
+                    rank: 3,
+                    originalValue: 17.302,
+                    originalUnit: 'EUR billion',
+                    sourceNote: 'Global Forwarding, Freight 事業部外部營收 173.02 億歐元。',
+                    source: {
+                        publisher: 'DHL Group',
+                        title: '2025 Segment reporting disclosures',
+                        url: 'https://reporting-hub.group.dhl.com/2025-fy/en/consolidated-financial-statements/notes-to-the-consolidated-financial-statements-of-deutsche-post-ag/segment-reporting-disclosures/',
+                        publishedDate: '2026',
+                        accessedDate: '2026-08-16'
+                    }
+                },
+                {
+                    name: 'CEVA Logistics',
+                    value: 18.3,
+                    rank: 4,
+                    originalValue: 18.3,
+                    originalUnit: 'USD billion',
+                    sourceNote: 'CMA CGM 物流事業營收 183 億美元，主要由 CEVA Logistics 經營。',
+                    source: {
+                        publisher: 'CMA CGM Group',
+                        title: 'Annual Financial Results 2025',
+                        url: 'https://www.cmacgm-group.com/en/news-media/annual-financial-results-2025',
+                        publishedDate: '2026',
+                        accessedDate: '2026-08-16'
+                    }
+                },
+                {
+                    name: 'Nippon Express Holdings',
+                    value: 17.21,
+                    rank: 5,
+                    originalValue: 2574.826,
+                    originalUnit: 'JPY billion',
+                    sourceNote: 'NX Group 集團營收 25,748.26 億日圓。',
+                    source: {
+                        publisher: 'Nippon Express Holdings',
+                        title: 'Consolidated Financial Summary',
+                        url: 'https://www.nipponexpress-holdings.com/en/ir/finance/highlights/',
+                        publishedDate: '2026',
+                        accessedDate: '2026-08-16'
+                    }
+                },
+                {
+                    name: 'Expeditors',
+                    value: 11.07,
+                    rank: 6,
+                    originalValue: 11.069009,
+                    originalUnit: 'USD billion',
+                    sourceNote: '集團營收 110.69 億美元。',
+                    source: {
+                        publisher: 'Expeditors International',
+                        title: 'Fourth Quarter and Full Year 2025 Results',
+                        url: 'https://investor.expeditors.com/press-releases/2026/02-24-2026-133044873',
+                        publishedDate: '2026-02-24',
+                        accessedDate: '2026-08-16'
+                    }
+                }
+            ],
+            sources: [
+                {
+                    publisher: 'Bank of Finland／European Central Bank',
+                    title: 'Average annual exchange rates for the year 2025',
+                    url: 'https://www.suomenpankki.fi/en/statistics/interest-rates-and-exchange-rates/exchange-rates/average-annual-exchange-rates-for-the-year-2025/',
+                    publishedDate: '2026',
+                    accessedDate: '2026-08-16'
+                }
+            ],
+            learning: {
+                whatToSee: '柱高呈現公開營收換算後的規模。營收會受到併購、運價、地區與服務組合影響，不能單獨用來判斷承攬量、獲利能力或市占率。',
+                whyItMatters: '新人可先辨認大型國際物流集團的相對規模，再配合空運公噸、海運 TEU 與各公司服務範圍理解競爭位置。'
+            }
+        },
         {
             datasetId: 'taiwan-listed-logistics-revenue-2025',
             section: 'taiwan-revenue',
@@ -153,5 +274,5 @@ window.MARKET_DATA_FALLBACK = {
             }
         ]
     },
-    globalNotice: '目前頁面只比較中菲行、台驊與捷迅三家公開合併營收；此比較不代表完整台灣貨運承攬市場市占率。'
+    globalNotice: '國際圖表採 2025 年公開營收並換算為美元，但公司揭露層級不完全一致；台灣圖表只比較中菲行、台驊與捷迅三家公開合併營收。兩者皆為規模參考，不代表市場市占率。'
 };

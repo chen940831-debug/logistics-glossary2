@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="assets/styles.css">
     <link rel="stylesheet" href="assets/market-map.css">
 </head>
-<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
+<body class="market-page bg-slate-100 text-slate-800 min-h-screen flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
     <header class="bg-indigo-950 text-white shadow-lg sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
             <a href="index.html" class="flex items-center gap-3 rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-white" aria-label="返回名詞查詢首頁">
@@ -35,15 +35,49 @@
         <section class="max-w-4xl mx-auto text-center mb-7" aria-labelledby="pageTitle">
             <p class="text-xs font-bold tracking-[0.2em] text-indigo-600 uppercase mb-2">Logistics Industry Map</p>
             <h1 id="pageTitle" class="text-3xl md:text-4xl font-black text-indigo-950">物流產業版圖</h1>
-            <p class="mt-3 text-sm md:text-base text-slate-600 leading-relaxed">
-                比較中菲行、台驊與捷迅的公開合併營收，理解三家台灣物流集團的大致規模。
+            <p class="market-intro mt-3 text-slate-600 leading-relaxed">
+                以公開財報比較國際主要物流業者，以及中菲行、台驊與捷迅的營收規模。
             </p>
             <p id="dataFreshness" class="mt-3 text-xs text-slate-500"></p>
         </section>
 
         <aside id="globalNotice" class="max-w-5xl mx-auto market-warning" role="note"></aside>
 
-        <section class="mt-8" aria-labelledby="taiwanTitle">
+        <section class="market-module-picker mt-8" aria-labelledby="marketModuleTitle">
+            <p class="market-eyebrow">Explore by Topic</p>
+            <h2 id="marketModuleTitle">選擇要閱讀的產業版圖</h2>
+            <p>每次聚焦一個主題，降低初次閱讀時的資訊密度。</p>
+            <div class="market-module-tabs" role="tablist" aria-label="物流產業版圖內容">
+                <button id="internationalTab" class="market-module-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="internationalPanel" data-market-section="international">
+                    <span>全球視角</span>
+                    <strong>國際主要物流業者營收比較</strong>
+                    <small>6 家公開資料比較</small>
+                </button>
+                <button id="taiwanTab" class="market-module-tab" type="button" role="tab" aria-selected="false" aria-controls="taiwanPanel" data-market-section="taiwan">
+                    <span>台灣市場</span>
+                    <strong>台灣公開資訊規模比較</strong>
+                    <small>中菲行、台驊、捷迅</small>
+                </button>
+                <button id="companyTab" class="market-module-tab" type="button" role="tab" aria-selected="false" aria-controls="companyProfile" data-market-section="company">
+                    <span>公司定位</span>
+                    <strong>台灣空運國際物流／台驊集團定位</strong>
+                    <small>服務、據點與公開揭露</small>
+                </button>
+            </div>
+        </section>
+
+        <section id="internationalPanel" class="market-view-panel mt-8" role="tabpanel" aria-labelledby="internationalTab">
+            <div class="market-section-heading">
+                <div>
+                    <p class="market-eyebrow">International Revenue View</p>
+                    <h2 id="internationalTitle">國際主要物流業者營收比較</h2>
+                    <p>採 2025 年公開財報，並換算為十億美元供規模閱讀。</p>
+                </div>
+            </div>
+            <div id="internationalCharts" aria-live="polite"></div>
+        </section>
+
+        <section id="taiwanPanel" class="market-view-panel mt-8" role="tabpanel" aria-labelledby="taiwanTab" hidden>
             <div class="market-section-heading">
                 <div>
                     <p class="market-eyebrow">Taiwan Market View</p>
@@ -54,7 +88,7 @@
             <div id="taiwanCharts" aria-live="polite"></div>
         </section>
 
-        <section id="companyProfile" class="mt-12" aria-labelledby="companyProfileTitle"></section>
+        <section id="companyProfile" class="market-view-panel mt-8" role="tabpanel" aria-labelledby="companyTab" hidden></section>
 
         <section class="mt-12 market-method-card" aria-labelledby="methodTitle">
             <p class="market-eyebrow">Reading Guide</p>

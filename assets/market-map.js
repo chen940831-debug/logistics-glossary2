@@ -41,18 +41,51 @@ function renderMarketModule(data) {
     document.getElementById('dataFreshness').textContent = `資料更新：${data.lastUpdated}｜來源查閱：${data.accessedDate}`;
     document.getElementById('globalNotice').textContent = data.globalNotice;
 
-    const taiwanCharts = document.getElementById('taiwanCharts');
+    const chartSections = [
+        ['internationalCharts', 'international-revenue'],
+        ['taiwanCharts', 'taiwan-revenue']
+    ];
 
-    data.datasets.filter(dataset => dataset.section === 'taiwan-revenue').forEach(dataset => {
-        const chart = createRankedBarChart(dataset);
-        chart.classList.add('market-chart-card--wide');
-        taiwanCharts.appendChild(chart);
+    chartSections.forEach(([containerId, sectionName]) => {
+        const container = document.getElementById(containerId);
+        data.datasets.filter(dataset => dataset.section === sectionName).forEach(dataset => {
+            const chart = createVerticalBarChart(dataset);
+            chart.classList.add('market-chart-card--wide');
+            container.appendChild(chart);
+        });
     });
 
     renderCompanyProfile(data.companyProfile);
+    initializeMarketSectionSwitcher();
+    setupScrollBarAnimations();
 }
 
-function createRankedBarChart(dataset) {
+function initializeMarketSectionSwitcher() {
+    const tabs = [...document.querySelectorAll('[data-market-section]')];
+    const panels = {
+        international: document.getElementById('internationalPanel'),
+        taiwan: document.getElementById('taiwanPanel'),
+        company: document.getElementById('companyProfile')
+    };
+
+    const selectSection = sectionName => {
+        tabs.forEach(tab => {
+            const isSelected = tab.dataset.marketSection === sectionName;
+            tab.classList.toggle('is-active', isSelected);
+            tab.setAttribute('aria-selected', String(isSelected));
+        });
+
+        Object.entries(panels).forEach(([name, panel]) => {
+            panel.hidden = name !== sectionName;
+        });
+    };
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => selectSection(tab.dataset.marketSection));
+    });
+}
+
+function createVerticalBarChart(dataset) {
     const card = document.createElement('article');
     card.className = 'market-chart-card';
     card.setAttribute('aria-labelledby', `${dataset.datasetId}-title`);
@@ -77,35 +110,42 @@ function createRankedBarChart(dataset) {
     const companies = [...dataset.companies].sort((a, b) => a.rank - b.rank);
     const maximum = Math.max(...companies.map(company => company.value));
     const bars = document.createElement('ol');
-    bars.className = 'market-bars';
+    bars.className = 'market-columns';
+    bars.dataset.size = companies.length;
     bars.setAttribute('aria-label', `${dataset.title}，單位：${dataset.unitLabel}`);
 
-    companies.forEach(company => {
+    companies.forEach((company, index) => {
         const item = document.createElement('li');
-        item.className = 'market-bar-item';
+        item.className = 'market-column-item';
         if (company.highlight) item.classList.add('is-highlighted');
+        item.setAttribute('aria-label', `${company.rank}. ${company.name}，${formatDatasetValue(company.value, dataset.unit, dataset.unitLabel)}。${company.sourceNote}`);
+
+        const plot = document.createElement('div');
+        plot.className = 'market-column-plot';
+        const height = Math.max((company.value / maximum) * 100, 4);
+        plot.style.setProperty('--market-column-height', `${height}%`);
+
+        const value = document.createElement('span');
+        value.className = 'market-column-value';
+        value.textContent = formatDatasetValue(company.value, dataset.unit, dataset.unitLabel);
+
+        const fill = document.createElement('div');
+        fill.className = 'market-column-fill';
+        fill.style.setProperty('--market-column-delay', `${index * 70}ms`);
+        fill.dataset.scrollBar = '';
+        fill.setAttribute('aria-hidden', 'true');
+        plot.append(value, fill);
 
         const label = document.createElement('div');
-        label.className = 'market-bar-label';
+        label.className = 'market-column-label';
         const name = document.createElement('strong');
         name.textContent = `${company.rank}. ${company.name}${company.ticker ? `（${company.ticker}）` : ''}`;
-        const value = document.createElement('span');
-        value.className = 'market-bar-value';
-        value.textContent = formatDatasetValue(company.value, dataset.unit, dataset.unitLabel);
-        label.append(name, value);
-
-        const track = document.createElement('div');
-        track.className = 'market-bar-track';
-        const fill = document.createElement('div');
-        fill.className = 'market-bar-fill';
-        fill.style.width = `${Math.max((company.value / maximum) * 100, 2)}%`;
-        fill.setAttribute('aria-hidden', 'true');
-        track.appendChild(fill);
+        label.appendChild(name);
 
         const sourceNote = document.createElement('p');
         sourceNote.className = 'market-source-note';
         sourceNote.textContent = company.sourceNote;
-        item.append(label, track, sourceNote);
+        item.append(plot, label, sourceNote);
         bars.appendChild(item);
     });
     card.appendChild(bars);
@@ -118,8 +158,29 @@ function createRankedBarChart(dataset) {
     card.appendChild(notice);
 
     card.appendChild(createLearningBlocks(dataset.learning));
-    card.appendChild(createSourceLinks(companies.map(company => company.source)));
+    const sources = companies.map(company => company.source).concat(dataset.sources || []);
+    card.appendChild(createSourceLinks(sources));
     return card;
+}
+
+function setupScrollBarAnimations() {
+    const bars = [...document.querySelectorAll('[data-scroll-bar]')];
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+        bars.forEach(bar => bar.classList.add('is-visible'));
+        return;
+    }
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+        });
+    }, { threshold: 0.18, rootMargin: '0px 0px -4% 0px' });
+
+    bars.forEach(bar => observer.observe(bar));
 }
 
 function createDatasetMeta(dataset) {
@@ -190,7 +251,7 @@ function createSourceLinks(sources) {
 
 function renderCompanyProfile(profile) {
     const section = document.getElementById('companyProfile');
-    section.className = 'market-profile mt-12';
+    section.className = 'market-profile market-view-panel mt-8';
 
     const eyebrow = document.createElement('p');
     eyebrow.className = 'market-eyebrow';
@@ -406,13 +467,17 @@ function formatDatasetValue(value, unit, unitLabel = unit) {
     if (unit === 'TWD million') {
         return `NT$ ${value.toLocaleString('zh-TW', { maximumFractionDigits: 1 })} 百萬元`;
     }
+    if (unit === 'USD billion') {
+        return `US$ ${value.toLocaleString('zh-TW', { minimumFractionDigits: 1, maximumFractionDigits: 2 })} 十億`;
+    }
     return `${Math.round(value).toLocaleString('zh-TW')} ${unitLabel}`;
 }
 
 function formatScopeStatus(status) {
     const labels = {
         'selected-company-sample': '已核對公司樣本',
-        'selected-public-companies': '已核對公開公司樣本'
+        'selected-public-companies': '已核對公開公司樣本',
+        'mixed-group-and-segment': '集團與事業部混合樣本'
     };
     return labels[status] || status;
 }
