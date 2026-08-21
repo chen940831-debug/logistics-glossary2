@@ -3,140 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>海空運物流與國貿條規專有名詞大典</title>
+    <meta name="description" content="從名詞、流程、文件與產業版圖開始理解國際物流。">
+    <title>Logistics Starter Guide｜國際物流新人學習手冊</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="assets/styles.css?v=20260815">
+    <link rel="stylesheet" href="assets/design-system.css?v=4">
+    <link rel="stylesheet" href="assets/styles.css?v=4">
+    <link rel="stylesheet" href="assets/home.css?v=4">
 </head>
-<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
+<body class="home-page bg-slate-100 text-slate-800 min-h-screen flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
 
     <!-- Header -->
-    <header class="bg-indigo-950 text-white shadow-lg sticky top-0 z-40">
-        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div class="flex items-center gap-3">
-                <div class="bg-indigo-600 p-2.5 rounded-xl shadow-inner">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+    <header class="home-header">
+        <div class="home-nav-shell">
+            <a href="#top" class="home-brand" aria-label="Logistics Starter Guide 首頁">
+                <span class="home-brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
                     </svg>
-                </div>
-                <div>
-                    <h1 class="text-xl font-bold tracking-wide flex items-center gap-2">
-                        海空運物流縮寫小幫手
-                        <span class="text-xs bg-indigo-800 text-indigo-200 px-2 py-0.5 rounded-full font-normal border border-indigo-700">v2.0 完整版</span>
-                    </h1>
-                    <p class="text-xs text-indigo-300 mt-0.5">整合 Incoterms 國貿條規與海空運實務專有名詞</p>
-                </div>
-            </div>
+                </span>
+                <span>
+                    <strong>Logistics Starter Guide</strong>
+                    <small>國際物流新人學習手冊</small>
+                </span>
+            </a>
 
-            <!-- Header Action Buttons -->
-            <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto justify-end">
-                <a href="learning-map.html" class="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 text-indigo-100 hover:text-white text-xs px-3 py-2 rounded-lg transition border border-indigo-700/60">
-                    新手學習地圖
-                </a>
-                <a href="clearance-map.html" class="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 text-indigo-100 hover:text-white text-xs px-3 py-2 rounded-lg transition border border-indigo-700/60">
-                    通關流程
-                </a>
-                <a href="documents.html" class="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 text-indigo-100 hover:text-white text-xs px-3 py-2 rounded-lg transition border border-indigo-700/60">
-                    文件範本
-                </a>
-                <a href="market-map.html" class="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 text-indigo-100 hover:text-white text-xs px-3 py-2 rounded-lg transition border border-indigo-700/60">
-                    物流產業版圖
-                </a>
-                <button onclick="toggleBookmarkFilter()" id="bookmarkFilterBtn" class="flex items-center gap-1.5 bg-indigo-900/80 hover:bg-indigo-800 text-indigo-200 hover:text-white text-xs px-3 py-2 rounded-lg transition border border-indigo-700/60">
-                    <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                    </svg>
-                    我的收藏 (<span id="bookmarkCount">0</span>)
+            <nav class="home-primary-nav" aria-label="主要導覽">
+                <a href="#top" aria-current="page">首頁</a>
+                <a href="#glossary">名詞</a>
+                <a href="clearance-map.html">流程</a>
+                <a href="documents.html">文件</a>
+                <a href="market-map.html">產業</a>
+            </nav>
+
+            <div class="home-tools" aria-label="學習工具">
+                <button type="button" onclick="toggleBookmarkFilter()" id="bookmarkFilterBtn" aria-pressed="false">
+                    收藏 <span id="bookmarkCount">0</span>
                 </button>
-                <button onclick="openModal()" class="flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs px-3.5 py-2 rounded-lg transition shadow-md font-medium">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-                    </svg>
-                    錯誤回報 / 建議
-                </button>
+                <button type="button" onclick="openModal()">錯誤回報</button>
             </div>
         </div>
     </header>
 
-    <!-- View Switcher & Search Bar Section -->
-    <main class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full">
-        <!-- View Mode Switcher -->
-        <div class="flex justify-center mb-6">
-            <div class="bg-slate-200/80 p-1.5 rounded-2xl flex gap-1 shadow-inner text-sm font-medium">
-                <button onclick="switchView('cards')" id="tabBtnCards" class="px-5 py-2 rounded-xl transition flex items-center gap-2 bg-white text-indigo-900 shadow-sm font-semibold">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
-                    </svg>
-                    詞條檢索模式
-                </button>
-                <button onclick="switchView('matrix')" id="tabBtnMatrix" class="px-5 py-2 rounded-xl transition flex items-center gap-2 text-slate-600 hover:text-indigo-900">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                    </svg>
-                    國貿條規簡表對照
-                </button>
-                <button onclick="switchView('flashcards')" id="tabBtnFlashcards" class="px-5 py-2 rounded-xl transition flex items-center gap-2 text-slate-600 hover:text-indigo-900">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-                    </svg>
-                    新手翻牌測驗模式
-                </button>
-            </div>
-        </div>
+    <main id="mainContent" class="home-main">
+        <section id="top" class="home-hero" aria-labelledby="homeHeroTitle">
+            <div class="home-reading-width">
+                <p class="home-eyebrow">國際物流新人學習手冊</p>
+                <h1 id="homeHeroTitle">第一次接觸物流，也不用一次全部記住。</h1>
+                <p class="home-hero-lead">從一個名詞、一份文件、一票貨開始理解國際物流。</p>
 
-        <!-- Search Controls View (Visible in Cards View) -->
-        <section id="searchControlsSection" class="mb-8">
-            <div class="relative max-w-2xl mx-auto mb-5">
-                <input 
-                    type="text" 
-                    id="searchInput" 
-                    placeholder="輸入縮寫 (如: EXW, FOB, MAWB, Demurrage) 或中文/關鍵字..."
-                    class="w-full px-5 py-3.5 pl-12 pr-10 rounded-2xl border border-slate-300 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent transition bg-white"
-                    oninput="handleSearch()"
-                >
-                <svg class="w-5 h-5 text-slate-400 absolute left-4 top-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
-                <button onclick="clearSearch()" id="clearSearchBtn" class="hidden absolute right-4 top-3.5 text-slate-400 hover:text-slate-600">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                <form class="home-search" role="search" onsubmit="event.preventDefault(); revealGlossary()">
+                    <label for="searchInput" class="ds-visually-hidden">搜尋物流名詞</label>
+                    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"></path>
                     </svg>
-                </button>
-            </div>
-
-            <!-- Category Filter Pills -->
-            <div class="flex flex-wrap justify-center gap-2 text-xs md:text-sm" id="categoryTags">
-                <button onclick="filterCategory('ALL')" class="category-btn active bg-indigo-700 text-white px-4 py-1.5 rounded-full font-medium shadow-sm transition">全部專有名詞</button>
-                <button onclick="filterCategory('Incoterms')" class="category-btn bg-white text-slate-600 hover:bg-slate-200 border border-slate-300 px-4 py-1.5 rounded-full font-medium transition">國貿條規 (Incoterms 11項)</button>
-                <button onclick="filterCategory('Sea')" class="category-btn bg-white text-slate-600 hover:bg-slate-200 border border-slate-300 px-4 py-1.5 rounded-full font-medium transition">海運實務專用</button>
-                <button onclick="filterCategory('Air')" class="category-btn bg-white text-slate-600 hover:bg-slate-200 border border-slate-300 px-4 py-1.5 rounded-full font-medium transition">空運實務專用</button>
-                <button onclick="filterCategory('Charges')" class="category-btn bg-white text-slate-600 hover:bg-slate-200 border border-slate-300 px-4 py-1.5 rounded-full font-medium transition">運費與附加費</button>
-                <button onclick="filterCategory('Customs')" class="category-btn bg-white text-slate-600 hover:bg-slate-200 border border-slate-300 px-4 py-1.5 rounded-full font-medium transition">報關、文件與一般通用</button>
-            </div>
-
-            <!-- Subgroup for Incoterms -->
-            <div id="incotermsSubgroup" class="hidden flex flex-wrap justify-center gap-2 mt-3 text-xs">
-                <span class="text-slate-400 self-center font-medium">條規組別:</span>
-                <button onclick="filterIncotermGroup('ALL')" class="incogroup-btn bg-indigo-100 text-indigo-800 px-3 py-1 rounded-lg font-medium">全部組別</button>
-                <button onclick="filterIncotermGroup('E')" class="incogroup-btn bg-slate-200 text-slate-700 px-3 py-1 rounded-lg hover:bg-slate-300">E組 (工廠)</button>
-                <button onclick="filterIncotermGroup('F')" class="incogroup-btn bg-slate-200 text-slate-700 px-3 py-1 rounded-lg hover:bg-slate-300">F組 (運費未付)</button>
-                <button onclick="filterIncotermGroup('C')" class="incogroup-btn bg-slate-200 text-slate-700 px-3 py-1 rounded-lg hover:bg-slate-300">C組 (運費已付)</button>
-                <button onclick="filterIncotermGroup('D')" class="incogroup-btn bg-slate-200 text-slate-700 px-3 py-1 rounded-lg hover:bg-slate-300">D組 (到達)</button>
+                    <input
+                        type="search"
+                        id="searchInput"
+                        placeholder="搜尋 AWB、FCL、POD、報關……"
+                        autocomplete="off"
+                        oninput="handleSearch()"
+                    >
+                    <button type="button" onclick="clearSearch()" id="clearSearchBtn" class="home-search-clear hidden" aria-label="清除搜尋">清除</button>
+                    <button type="submit" class="home-search-submit">搜尋名詞</button>
+                </form>
+                <p class="home-search-hint">可搜尋縮寫、英文名稱、中文名稱或實務關鍵字</p>
             </div>
         </section>
 
+        <section class="home-section home-entry-section" aria-labelledby="startHeading">
+            <div class="home-section-heading">
+                <p class="home-eyebrow">Start here</p>
+                <h2 id="startHeading">你想從哪裡開始？</h2>
+                <p>先選擇眼前最需要解決的問題，再逐步延伸。</p>
+            </div>
+            <div class="home-entry-grid">
+                <a href="#glossary" class="home-entry-card">
+                    <span class="home-entry-number">01</span>
+                    <h3>查一個名詞</h3>
+                    <p>遇到看不懂的縮寫，先找出基本意思與使用情境。</p>
+                    <span class="home-text-link">開始查詢 <span aria-hidden="true">→</span></span>
+                </a>
+                <a href="clearance-map.html" class="home-entry-card">
+                    <span class="home-entry-number">02</span>
+                    <h3>看一票貨怎麼走</h3>
+                    <p>從資料申報、通關到放行與提領，掌握流程主幹。</p>
+                    <span class="home-text-link">查看流程 <span aria-hidden="true">→</span></span>
+                </a>
+                <a href="documents.html" class="home-entry-card">
+                    <span class="home-entry-number">03</span>
+                    <h3>認識一份文件</h3>
+                    <p>從 Invoice、Packing List、AWB 與 B/L 開始閱讀。</p>
+                    <span class="home-text-link">查看文件 <span aria-hidden="true">→</span></span>
+                </a>
+                <a href="market-map.html" class="home-entry-card">
+                    <span class="home-entry-number">04</span>
+                    <h3>了解產業版圖</h3>
+                    <p>認識台灣物流業者、航空公司與全球物流網路。</p>
+                    <span class="home-text-link">查看產業 <span aria-hidden="true">→</span></span>
+                </a>
+            </div>
+        </section>
+
+        <section class="home-section home-route-section" aria-labelledby="routeHeading">
+            <div class="home-section-heading home-section-heading--left">
+                <p class="home-eyebrow">Recommended path</p>
+                <h2 id="routeHeading">新手推薦學習路線</h2>
+                <p>依照工作中最常遇到的順序，建立基本認知。</p>
+            </div>
+            <ol class="home-learning-route">
+                <li>
+                    <span>01</span>
+                    <div><strong>認識 Freight Forwarder</strong><p>先知道貨運承攬商在整段運輸中扮演的角色。</p></div>
+                </li>
+                <li>
+                    <span>02</span>
+                    <div><strong>看完整運輸流程</strong><p>理解貨物、文件與資訊如何從起點移動到目的地。</p></div>
+                </li>
+                <li>
+                    <span>03</span>
+                    <div><strong>認識常見文件</strong><p>練習辨認每份文件的用途與重要欄位。</p></div>
+                </li>
+                <li>
+                    <span>04</span>
+                    <div><strong>學會常見縮寫</strong><p>把每天看到的縮寫逐步放回流程與文件情境。</p></div>
+                </li>
+            </ol>
+        </section>
+
+        <section class="home-section home-common-section" aria-labelledby="commonHeading">
+            <div class="home-section-heading home-section-heading--left">
+                <p class="home-eyebrow">Quick reference</p>
+                <h2 id="commonHeading">先從常用名詞開始</h2>
+                <p>點擊名詞後，直接查看現有字典內容。</p>
+            </div>
+            <div class="home-common-terms" aria-label="常用物流名詞">
+                <button type="button" onclick="searchCommonTerm('AWB')">AWB</button>
+                <button type="button" onclick="searchCommonTerm('HAWB')">HAWB</button>
+                <button type="button" onclick="searchCommonTerm('MAWB')">MAWB</button>
+                <button type="button" onclick="searchCommonTerm('ETA')">ETA</button>
+                <button type="button" onclick="searchCommonTerm('ETD')">ETD</button>
+                <button type="button" onclick="searchCommonTerm('FCL')">FCL</button>
+                <button type="button" onclick="searchCommonTerm('LCL')">LCL</button>
+                <button type="button" onclick="searchCommonTerm('POD')">POD</button>
+            </div>
+        </section>
+
+        <section id="glossary" class="home-section home-glossary-section" aria-labelledby="glossaryHeading">
+            <div class="home-section-heading home-section-heading--left">
+                <p class="home-eyebrow">Glossary</p>
+                <h2 id="glossaryHeading">名詞查詢與學習工具</h2>
+                <p>使用頁面上方搜尋框，或依分類瀏覽全部名詞。</p>
+            </div>
+
+            <div class="home-view-switcher" role="group" aria-label="名詞學習模式">
+                <button type="button" onclick="switchView('cards')" id="tabBtnCards" class="home-view-button is-active" aria-pressed="true">名詞查詢</button>
+                <button type="button" onclick="switchView('matrix')" id="tabBtnMatrix" class="home-view-button" aria-pressed="false">Incoterms 表格</button>
+                <button type="button" onclick="switchView('flashcards')" id="tabBtnFlashcards" class="home-view-button" aria-pressed="false">Flashcard</button>
+            </div>
+
+            <section id="searchControlsSection" class="home-filter-panel" aria-label="名詞分類篩選">
+                <div id="categoryTags" class="home-category-filters">
+                    <button type="button" onclick="filterCategory('ALL', this)" class="category-btn is-active" aria-pressed="true">全部</button>
+                    <button type="button" onclick="filterCategory('Incoterms', this)" class="category-btn" aria-pressed="false">國貿條規</button>
+                    <button type="button" onclick="filterCategory('Sea', this)" class="category-btn" aria-pressed="false">海運</button>
+                    <button type="button" onclick="filterCategory('Air', this)" class="category-btn" aria-pressed="false">空運</button>
+                    <button type="button" onclick="filterCategory('Charges', this)" class="category-btn" aria-pressed="false">費用</button>
+                    <button type="button" onclick="filterCategory('Customs', this)" class="category-btn" aria-pressed="false">報關與文件</button>
+                </div>
+
+                <div id="incotermsSubgroup" class="home-subgroup-filters hidden">
+                    <span>條規組別</span>
+                    <button type="button" onclick="filterIncotermGroup('ALL', this)" class="incogroup-btn is-active" aria-pressed="true">全部</button>
+                    <button type="button" onclick="filterIncotermGroup('E', this)" class="incogroup-btn" aria-pressed="false">E 組</button>
+                    <button type="button" onclick="filterIncotermGroup('F', this)" class="incogroup-btn" aria-pressed="false">F 組</button>
+                    <button type="button" onclick="filterIncotermGroup('C', this)" class="incogroup-btn" aria-pressed="false">C 組</button>
+                    <button type="button" onclick="filterIncotermGroup('D', this)" class="incogroup-btn" aria-pressed="false">D 組</button>
+                </div>
+            </section>
+
         <!-- VIEW 1: Cards Grid -->
         <section id="viewCards">
-            <div id="resultsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div id="browsePrompt" class="home-browse-prompt">
+                <h3>先輸入一個名詞，或依分類開始瀏覽。</h3>
+                <p>首頁不會一次展開全部詞條，讓你可以專注在目前需要理解的內容。</p>
+                <button type="button" onclick="browseAllTerms()">瀏覽全部名詞</button>
+            </div>
+            <p id="resultsSummary" class="home-results-summary" role="status" aria-live="polite"></p>
+            <div id="resultsContainer" class="home-results-grid">
                 <!-- Cards rendered dynamically -->
             </div>
 
             <!-- Empty State -->
-            <div id="emptyState" class="hidden text-center py-16 bg-white rounded-3xl border border-dashed border-slate-300 my-4">
-                <svg class="w-16 h-16 text-slate-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 9.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-                <p class="text-slate-600 font-semibold text-lg">查無匹配的專有名詞</p>
-                <p class="text-slate-400 text-xs mt-1">請嘗試變更搜尋關鍵字，或點擊右上角回報新增此詞條！</p>
+            <div id="emptyState" class="home-empty-state hidden">
+                <p>查無匹配的專有名詞</p>
+                <p>請更換搜尋關鍵字，或使用錯誤回報建議新增詞條。</p>
             </div>
         </section>
 
@@ -234,11 +294,13 @@
                 </div>
             </div>
         </section>
+        </section>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-slate-200 py-6 mt-12 text-center text-xs text-slate-500">
-        <p>海空運物流與國貿條規學習辭典 · 支援 GitHub / Netlify 部署版本</p>
+    <footer class="home-footer">
+        <p>Logistics Starter Guide</p>
+        <p>本網站內容供新人教育訓練使用，實際作業請依最新規定與公司 SOP 辦理。</p>
     </footer>
 
     <!-- Term Detail Modal -->
@@ -328,6 +390,6 @@
     </div>
 
     <script src="data/terms.js"></script>
-    <script src="assets/app.js"></script>
+    <script src="assets/app.js?v=4"></script>
 </body>
 </html>

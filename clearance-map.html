@@ -6,6 +6,7 @@
     <meta name="description" content="以新手教學與完整流程兩種模式學習空運進口、出口及保稅貨物通關。">
     <title>通關流程學習地圖｜海空運物流縮寫小幫手</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/design-system.css?v=4">
     <link rel="stylesheet" href="assets/styles.css">
     <link rel="stylesheet" href="assets/clearance-map.css?v=2">
 </head>
@@ -120,18 +121,11 @@
                 </aside>
             </div>
 
-            <section class="clearance-source-panel" aria-labelledby="sourceTitle">
-                <div>
-                    <h3 id="sourceTitle" class="text-sm font-black text-slate-900">資料來源與複核</h3>
-                    <p id="sourceReviewDate" class="mt-1 text-xs text-slate-500"></p>
-                </div>
-                <ul id="sourceList" class="clearance-source-list"></ul>
-            </section>
         </section>
 
         <section id="clearanceLoadError" class="clearance-error-state hidden" role="alert">
             <h2 class="text-lg font-black">流程資料暫時無法載入</h2>
-            <p class="mt-2 text-sm">請重新整理頁面；若直接開啟本機 HTML，請改用本機 HTTP 伺服器或 Netlify 預覽。</p>
+            <p class="mt-2 text-sm">請重新整理頁面；若問題持續發生，請確認流程資料檔案是否完整。</p>
         </section>
     </main>
 
@@ -141,6 +135,7 @@
         </div>
     </footer>
 
-    <script src="assets/clearance-map.js?v=2"></script>
+    <script src="data/clearance-processes.js?v=3"></script>
+    <script src="assets/clearance-map.js?v=3"></script>
 </body>
 </html>

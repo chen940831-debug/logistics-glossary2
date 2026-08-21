@@ -39,9 +39,7 @@
         detailTip: document.getElementById('detailTip'),
         differenceSection: document.getElementById('differenceSection'),
         detailDifference: document.getElementById('detailDifference'),
-        detailTerms: document.getElementById('detailTerms'),
-        sourceReviewDate: document.getElementById('sourceReviewDate'),
-        sourceList: document.getElementById('sourceList')
+        detailTerms: document.getElementById('detailTerms')
     };
 
     const statusLabels = {
@@ -51,11 +49,23 @@
     };
 
     async function loadClearanceData() {
-        const response = await fetch('data/clearance-processes.json', { cache: 'no-store' });
-        if (!response.ok) {
-            throw new Error(`Clearance data HTTP ${response.status}`);
+        const fallbackData = window.CLEARANCE_PROCESS_DATA_FALLBACK;
+        if (window.location.protocol === 'file:' && fallbackData) {
+            return fallbackData;
         }
-        return response.json();
+
+        try {
+            const response = await fetch('data/clearance-processes.json', { cache: 'no-store' });
+            if (!response.ok) {
+                throw new Error(`Clearance data HTTP ${response.status}`);
+            }
+            return response.json();
+        } catch (error) {
+            if (fallbackData) {
+                return fallbackData;
+            }
+            throw error;
+        }
     }
 
     function validateProcessData(data) {
@@ -184,7 +194,6 @@
 
         updateModeButtons();
         renderFlow();
-        renderSources();
         resetDetailPanel();
         elements.workspace.scrollIntoView({ behavior: getScrollBehavior(), block: 'start' });
     }
@@ -639,27 +648,6 @@
         elements.detailSummary.textContent = '節點內容會顯示在這裡。';
         elements.detailContent.classList.add('hidden');
         elements.differenceSection.classList.add('hidden');
-    }
-
-    function renderSources() {
-        const process = state.activeProcess;
-        elements.sourceReviewDate.textContent = `內容核對日期：${process.lastReviewed} · 狀態：${statusLabels[process.reviewStatus] || process.reviewStatus}`;
-        elements.sourceList.replaceChildren();
-
-        process.sources.forEach(source => {
-            const item = document.createElement('li');
-            if (source.url) {
-                const link = document.createElement('a');
-                link.href = source.url;
-                link.target = '_blank';
-                link.rel = 'noopener noreferrer';
-                link.textContent = source.title;
-                item.appendChild(link);
-            } else {
-                item.textContent = `${source.title} · 僅作內容辨識參考，不部署原始照片`;
-            }
-            elements.sourceList.appendChild(item);
-        });
     }
 
     function bindEvents() {

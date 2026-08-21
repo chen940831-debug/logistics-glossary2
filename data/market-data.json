@@ -268,7 +268,7 @@
       "chartType": "ranked-bar",
       "scopeStatus": "selected-public-companies",
       "methodologyNote": "比較公開財務資料中的 2025 年合併營業收入。各集團的地理範圍、子公司及空運、海運、倉儲等業務組成不同，且未涵蓋所有未上市業者。",
-      "notice": "公開資訊可觀察之規模比較，非完整台灣貨運承攬市場市占率。",
+      "notice": null,
       "companies": [
         {
           "name": "中菲行國際物流",
@@ -304,20 +304,26 @@
           "ticker": "2643",
           "value": 8398.72,
           "rank": 3,
-          "sourceNote": "2025 年累計合併營收；公開資訊彙整頁資料，後續更新時應再與年報核對。",
+          "sourceNote": "2025 年累計合併營收；資料來源為公司月營收公告。",
           "source": {
-            "publisher": "公開資訊彙整頁（資料源為公司月營收公告）",
-            "title": "捷迅 2025 年度合併營收",
-            "url": "https://goodinfo.tw/tw/StockFinDetail.asp?LAST_RPT_CAT=IS_M_YEAR&QRY_TIME=2025&RPT_CAT=IS_M_YEAR&STOCK_ID=2643",
+            "publisher": "公開資訊觀測站",
+            "title": "公司月營收公告",
+            "url": "https://mops.twse.com.tw/mops/",
             "publishedDate": "2026",
-            "accessedDate": "2026-08-15"
+            "accessedDate": "2026-08-17"
           }
         }
       ],
-      "learning": {
-        "whatToSee": "此圖只比較三家具有公開資料的物流集團合併營收。營收較高可能來自服務組合、海外子公司或運價變化，不能直接解讀為台灣貨運承攬市占。",
-        "whyItMatters": "新人可藉此辨認台灣資本市場中較容易取得公開資料的國際物流集團，並理解公司層級與集團層級數字的差別。"
-      }
+      "learning": null,
+      "displaySources": [
+        {
+          "publisher": "公開資訊觀測站",
+          "title": "公司月營收公告",
+          "url": "https://mops.twse.com.tw/mops/",
+          "accessedDate": "2026-08-17",
+          "linkLabel": "資料來源：公開資訊觀測站"
+        }
+      ]
     }
   ],
   "companyProfile": {

@@ -283,15 +283,6 @@
     background: #d97706;
 }
 
-.market-column-item.is-highlighted .market-column-label strong::after {
-    content: " 目前所在集團";
-    display: block;
-    margin-top: 0.25rem;
-    color: #92400e;
-    font-size: 0.64rem;
-    font-weight: 900;
-}
-
 .market-source-note {
     margin-top: 0.15rem;
     color: #94a3b8;

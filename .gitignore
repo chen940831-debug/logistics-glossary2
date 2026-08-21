@@ -29,3 +29,7 @@ documents/private/
 documents/originals/
 public/documents/originals/
 uploads/
+
+# Local document drafts kept only for authoring; public training files belong in documents/.
+/*.docx
+/*.pdf

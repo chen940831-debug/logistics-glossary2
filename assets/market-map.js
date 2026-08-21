@@ -152,14 +152,23 @@ function createVerticalBarChart(dataset) {
 
     card.appendChild(createDatasetMeta(dataset));
 
-    const notice = document.createElement('p');
-    notice.className = 'market-notice';
-    notice.textContent = dataset.notice;
-    card.appendChild(notice);
+    if (dataset.notice) {
+        const notice = document.createElement('p');
+        notice.className = 'market-notice';
+        notice.textContent = dataset.notice;
+        card.appendChild(notice);
+    }
 
-    card.appendChild(createLearningBlocks(dataset.learning));
-    const sources = companies.map(company => company.source).concat(dataset.sources || []);
-    card.appendChild(createSourceLinks(sources));
+    if (dataset.learning) {
+        card.appendChild(createLearningBlocks(dataset.learning));
+    }
+
+    const sources = Array.isArray(dataset.displaySources)
+        ? dataset.displaySources
+        : companies.map(company => company.source).concat(dataset.sources || []);
+    if (sources.length > 0) {
+        card.appendChild(createSourceLinks(sources));
+    }
     return card;
 }
 
@@ -242,7 +251,7 @@ function createSourceLinks(sources) {
         link.href = source.url;
         link.target = '_blank';
         link.rel = 'noopener noreferrer';
-        link.textContent = `查看來源：${source.publisher}`;
+        link.textContent = source.linkLabel || `查看來源：${source.publisher}`;
         link.title = `${source.title}，查閱日期 ${source.accessedDate}`;
         container.appendChild(link);
     });

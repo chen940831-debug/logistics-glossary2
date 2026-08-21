@@ -184,8 +184,7 @@
 }
 
 .clearance-map-panel,
-.clearance-detail-panel,
-.clearance-source-panel {
+.clearance-detail-panel {
     border: 1px solid #cbd5e1;
     border-radius: 1rem;
     background: #fff;
@@ -587,28 +586,6 @@
     color: #fff;
 }
 
-.clearance-source-panel {
-    display: grid;
-    grid-template-columns: minmax(12rem, 0.45fr) minmax(0, 1fr);
-    gap: 1rem;
-    margin-top: 1.25rem;
-    padding: 1.25rem;
-}
-
-.clearance-source-list {
-    display: grid;
-    gap: 0.55rem;
-    color: #475569;
-    font-size: 0.75rem;
-}
-
-.clearance-source-list a {
-    color: #3730a3;
-    font-weight: 700;
-    text-decoration: underline;
-    text-underline-offset: 2px;
-}
-
 .clearance-error-state {
     margin-top: 2rem;
     border: 1px solid #fecaca;
@@ -674,9 +651,6 @@
         gap: 4.25rem;
     }
 
-    .clearance-source-panel {
-        grid-template-columns: 1fr;
-    }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,0 +1,929 @@
+window.CLEARANCE_PROCESS_DATA_FALLBACK = {
+  "schemaVersion": "1.0.0",
+  "dataType": "clearance-processes",
+  "reviewStatuses": ["verified", "needs-review", "outdated"],
+  "disclaimer": "本頁內容供新人教育訓練使用，實際報關作業請以海關最新規定、公司 SOP 與正式作業系統為準。",
+  "processes": [
+    {
+      "id": "air-import",
+      "title": "空運進口通關",
+      "englishTitle": "Import Air Cargo Clearance",
+      "description": "空運進口貨物從報單與艙單傳輸、海關篩選，到繳稅、放行與提領的主幹流程。",
+      "sourceType": "reference-flowchart-and-official-guidance",
+      "reviewStatus": "verified",
+      "lastReviewed": "2026-08-15",
+      "sources": [
+        {
+          "title": "空運進口貨物通關流程參考照片",
+          "type": "reference-image",
+          "reference": "FF79C052-4DB7-4F3F-99D5-B0596BBDC955.jpeg"
+        },
+        {
+          "title": "進口貨物通關流程圖",
+          "type": "official-webpage",
+          "url": "https://web.customs.gov.tw/taipei/singlehtml/140?cntId=cus2_51154_140"
+        },
+        {
+          "title": "貨物通關三種方式 C1、C2 及 C3 有何不同",
+          "type": "official-webpage",
+          "url": "https://web.customs.gov.tw/singlehtml/1207?cntId=cus1_93292_1207"
+        }
+      ],
+      "entryStepIds": ["air-declaration", "air-manifest", "air-paper-declaration"],
+      "teachingStages": [
+        { "id": "air-stage-01", "title": "資料申報", "nodeIds": ["air-declaration", "air-manifest", "air-paper-declaration"] },
+        { "id": "air-stage-02", "title": "資料進入海關", "nodeIds": ["air-network", "air-registration"] },
+        {
+          "id": "air-stage-03",
+          "title": "篩選通關方式",
+          "nodeIds": ["air-selectivity"],
+          "prompt": {
+            "question": "這票貨接下來可能去哪裡？",
+            "answer": "海關系統會核定為 C1、C2 或 C3。",
+            "answerNodeIds": ["air-c1", "air-c2", "air-c3"]
+          }
+        },
+        { "id": "air-stage-04", "title": "C1／C2／C3", "nodeIds": ["air-c1", "air-c2", "air-c3"] },
+        { "id": "air-stage-05", "title": "補送書面報單", "nodeIds": ["air-paper-followup"] },
+        { "id": "air-stage-06", "title": "查驗貨物", "nodeIds": ["air-cargo-examination"] },
+        { "id": "air-stage-07", "title": "分估計稅", "nodeIds": ["air-valuation"] },
+        { "id": "air-stage-08", "title": "繳稅", "nodeIds": ["air-duty-payment"] },
+        { "id": "air-stage-09", "title": "放行", "nodeIds": ["air-release"] },
+        { "id": "air-stage-10", "title": "提領", "nodeIds": ["air-pickup"] }
+      ],
+      "flowEdges": [
+        { "fromStepId": "air-declaration", "toStepId": "air-network" },
+        { "fromStepId": "air-manifest", "toStepId": "air-network" },
+        { "fromStepId": "air-paper-declaration", "toStepId": "air-registration" },
+        { "fromStepId": "air-network", "toStepId": "air-selectivity" },
+        { "fromStepId": "air-registration", "toStepId": "air-selectivity" },
+        { "fromStepId": "air-selectivity", "toStepId": "air-c1", "label": "C1" },
+        { "fromStepId": "air-selectivity", "toStepId": "air-c2", "label": "C2" },
+        { "fromStepId": "air-selectivity", "toStepId": "air-c3", "label": "C3" },
+        { "fromStepId": "air-c1", "toStepId": "air-duty-payment", "label": "免審免驗" },
+        { "fromStepId": "air-c2", "toStepId": "air-paper-followup", "label": "C2" },
+        { "fromStepId": "air-c3", "toStepId": "air-paper-followup", "label": "C3" },
+        { "fromStepId": "air-paper-followup", "toStepId": "air-valuation", "label": "C2" },
+        { "fromStepId": "air-paper-followup", "toStepId": "air-cargo-examination", "label": "C3" },
+        { "fromStepId": "air-cargo-examination", "toStepId": "air-valuation" },
+        { "fromStepId": "air-valuation", "toStepId": "air-duty-payment" },
+        { "fromStepId": "air-duty-payment", "toStepId": "air-release" },
+        { "fromStepId": "air-release", "toStepId": "air-pickup" }
+      ],
+      "steps": [
+        {
+          "id": "air-declaration",
+          "displayOrder": 1,
+          "nodeType": "input",
+          "title": "報關人傳輸報單資料",
+          "englishTitle": "Electronic Declaration Data Transmission",
+          "shortDescription": "報關人以連線方式傳輸進口報單資料。",
+          "detail": {
+            "whatHappens": "報關人依交易與貨物資料製作進口報單，經通關網路或網際網路傳送至海關。",
+            "actors": ["Declarant", "Customs Broker"],
+            "documents": ["進口報單", "Commercial Invoice", "輸入許可文件，如適用"],
+            "newbieTip": "報單內容應與原始交易文件一致；來源未列出的附件不宜自行假定為每票必備。"
+          },
+          "relatedTerms": [{ "label": "C/I", "query": "C/I" }],
+          "nextStepIds": ["air-network"],
+          "reviewStatus": "verified",
+          "differenceNote": "",
+          "uncertainties": []
+        },
+        {
+          "id": "air-manifest",
+          "displayOrder": 2,
+          "nodeType": "input",
+          "title": "運輸業者傳輸艙單資料",
+          "englishTitle": "Manifest Data Transmission",
+          "shortDescription": "航空運輸相關業者將進口艙單資料傳送至海關。",
+          "detail": {
+            "whatHappens": "運輸業者傳輸進口艙單，供海關與報單資料進行後續處理。",
+            "actors": ["Airline", "Cargo Carrier"],
+            "documents": ["進口艙單"],
+            "newbieTip": "報單與艙單是不同資料來源，兩者都會影響後續收單與通關。"
+          },
+          "relatedTerms": [{ "label": "MAWB", "query": "MAWB" }, { "label": "HAWB", "query": "HAWB" }],
+          "nextStepIds": ["air-network"],
+          "reviewStatus": "verified",
+          "differenceNote": "",
+          "uncertainties": []
+        },
+        {
+          "id": "air-paper-declaration",
+          "displayOrder": 3,
+          "nodeType": "input",
+          "title": "非連線報關人投遞書面報單",
+          "englishTitle": "Hard Copy Declaration",
+          "shortDescription": "未採連線申報時，將書面報單及相關文件交由海關收單。",
+          "detail": {
+            "whatHappens": "海關人員收取書面報單並將資料鍵入系統，其後流程與連線報關相同。",
+            "actors": ["Declarant", "Customs"],
+            "documents": ["書面進口報單", "必要書面文件"],
+            "newbieTip": "非連線申報只是資料進入海關的方式不同，後續仍會進入通關方式篩選。"
+          },
+          "relatedTerms": [],
+          "nextStepIds": ["air-registration"],
+          "reviewStatus": "verified",
+          "differenceNote": "",
+          "uncertainties": []
+        },
+        {
+          "id": "air-network",
+          "displayOrder": 4,
+          "nodeType": "system",
+          "title": "通關網路",
+          "englishTitle": "Value Added Network",
+          "shortDescription": "接收連線傳輸的報單及艙單資料。",
+          "detail": {
+            "whatHappens": "連線報關與艙單資料經通關網路傳達海關系統。",
+            "actors": ["Declarant", "Cargo Carrier", "Customs"],
+            "documents": [],
+            "newbieTip": "此節點表示資料傳輸管道，不代表貨物已完成通關。"
+          },
+          "relatedTerms": [],
+          "nextStepIds": ["air-selectivity"],
+          "reviewStatus": "verified",
+          "differenceNote": "",
+          "uncertainties": []
+        },
+        {
+          "id": "air-registration",
+          "displayOrder": 5,
+          "nodeType": "system",
+          "title": "海關人員收單建檔",
+          "englishTitle": "Declaration Registration",
+          "shortDescription": "海關將非連線書面報單建檔。",
+          "detail": {
+            "whatHappens": "海關受理書面資料並完成電腦建檔，使案件進入後續篩選。",
+            "actors": ["Customs"],
+            "documents": ["書面進口報單"],
+            "newbieTip": "收單建檔完成後，案件仍須等待通關方式核定。"
+          },
+          "relatedTerms": [],
+          "nextStepIds": ["air-selectivity"],
+          "reviewStatus": "verified",
+          "differenceNote": "",
+          "uncertainties": []
+        },
+        {
+          "id": "air-selectivity",
+          "displayOrder": 6,
+          "nodeType": "decision",
+          "title": "海關篩選通關方式",
+          "englishTitle": "Clearance Type Selectivity",
+          "shortDescription": "海關系統核定 C1、C2 或 C3。",
+          "detail": {
+            "whatHappens": "海關系統依案件條件核定通關方式，決定是否需要文件審核及貨物查驗。",
+            "actors": ["Customs"],
+            "documents": ["進口報單", "進口艙單"],
+            "newbieTip": "C1、C2、C3 是三條不同處理路徑，不代表貨物品質等級。"
+          },
+          "relatedTerms": [],
+          "nextStepIds": ["air-c1", "air-c2", "air-c3"],
+          "reviewStatus": "verified",
+          "differenceNote": "",
+          "uncertainties": []
+        },
+        {
+          "id": "air-c1",
+          "displayOrder": 7,
+          "nodeType": "clearance-route",
+          "clearanceCode": "C1",
+          "title": "免審免驗通關",
+          "englishTitle": "Bypass",
+          "shortDescription": "免審書面文件、免驗貨物，進入繳稅放行。",
+          "detail": {
+            "whatHappens": "C1 案件不進行書面文件審核及貨物查驗；進口貨物完成稅費程序後放行。",
+            "actors": ["Declarant", "Customs"],
+            "documents": ["報關文件由報關人依規定保存"],
+            "newbieTip": "C1 仍可能有稅費程序，也不代表海關永遠不會要求補送資料。"
+          },
+          "relatedTerms": [],
+          "nextStepIds": ["air-duty-payment"],
+          "reviewStatus": "verified",
+          "differenceNote": "",
+          "uncertainties": []
+        },
+        {
+          "id": "air-c2",
+          "displayOrder": 8,
+          "nodeType": "clearance-route",
+          "clearanceCode": "C2",
+          "title": "文件審核",
+          "englishTitle": "Document Review",
+          "shortDescription": "補送書面報單及相關文件，經審核後進入分估計稅。",
+          "detail": {
+            "whatHappens": "連線報關後，報關人應於翌日海關辦公時間終了前補送書面報單及相關文件，供海關審核。",
+            "actors": ["Declarant", "Customs Broker", "Customs"],
+            "documents": ["書面進口報單", "Commercial Invoice", "輸入許可文件，如適用"],
+            "newbieTip": "先確認補送期限及文件內容是否與線上申報一致。"
+          },
+          "relatedTerms": [{ "label": "C/I", "query": "C/I" }],
+          "nextStepIds": ["air-paper-followup"],
+          "reviewStatus": "verified",
+          "differenceNote": "",
+          "uncertainties": []
+        },
+        {
+          "id": "air-c3",
+          "displayOrder": 9,
+          "nodeType": "clearance-route",
+          "clearanceCode": "C3",
+          "title": "文件審核＋貨物查驗",
+          "englishTitle": "Document Review & Cargo Examination",
+          "shortDescription": "補送文件並配合海關查驗貨物。",
+          "detail": {
+            "whatHappens": "C3 除須補送書面報單及相關文件外，還須配合海關查驗貨物，再進入審核及分類估價。",
+            "actors": ["Declarant", "Customs Broker", "Customs", "Warehouse"],
+            "documents": ["書面進口報單", "相關文件正本", "查驗所需資料"],
+            "newbieTip": "C3 可能採先驗後估或先估後驗；倉庫驗放屬後者可能情境之一。"
+          },
+          "relatedTerms": [{ "label": "MAWB", "query": "MAWB" }, { "label": "HAWB", "query": "HAWB" }],
+          "nextStepIds": ["air-paper-followup"],
+          "reviewStatus": "verified",
+          "differenceNote": "部分案件可能採船機邊驗放或倉庫驗放，順序會與主幹不同。",
+          "uncertainties": []
+        },
+        {
+          "id": "air-paper-followup",
+          "displayOrder": 10,
+          "nodeType": "action",
+          "title": "（連線部分）報關人翌日補送書面報單",
+          "englishTitle": "Hard Copy Declaration Submitted by Declarant",
+          "shortDescription": "C2、C3 連線案件由報關人翌日補送書面報單。",
+          "detail": {
+            "whatHappens": "連線申報核定為 C2 或 C3 後，報關人翌日補送書面報單及相關文件，供海關辦理後續審核或查驗。",
+            "actors": ["Declarant", "Customs Broker", "Customs"],
+            "documents": ["書面進口報單", "相關申報文件"],
+            "newbieTip": "此區塊只適用於照片標示的連線部分；補送內容應與連線申報資料一致。"
+          },
+          "relatedTerms": [{ "label": "C/I", "query": "C/I" }, { "label": "P/L", "query": "P/L" }],
+          "nextStepIds": ["air-valuation", "air-cargo-examination"],
+          "reviewStatus": "verified",
+          "differenceNote": "C2 前往分類估價；C3 先前往貨物查驗，再進入分類估價。",
+          "uncertainties": []
+        },
+        {
+          "id": "air-cargo-examination",
+          "displayOrder": 11,
+          "nodeType": "action",
+          "title": "查驗貨物",
+          "englishTitle": "Cargo Examination",
+          "shortDescription": "海關核對實際貨物與申報內容。",
+          "detail": {
+            "whatHappens": "海關對貨物進行查驗，確認實到貨物與申報內容是否相符。",
+            "actors": ["Customs", "Customs Broker", "Warehouse"],
+            "documents": ["查驗通知及相關申報資料"],
+            "newbieTip": "確認貨物位置、包裝及陪同查驗安排，避免文件已到但貨物無法配合。"
+          },
+          "relatedTerms": [{ "label": "P/L", "query": "P/L" }],
+          "nextStepIds": ["air-valuation"],
+          "reviewStatus": "verified",
+          "differenceNote": "",
+          "uncertainties": []
+        },
+        {
+          "id": "air-valuation",
+          "displayOrder": 12,
+          "nodeType": "action",
+          "title": "分類估價及稅費計算",
+          "englishTitle": "Tariff Classification, Valuation & Duty Calculation",
+          "shortDescription": "完成貨品分類、估價與應納稅費計算。",
+          "detail": {
+            "whatHappens": "海關完成分估後由系統計算相關稅費，並產生後續繳稅資訊。",
+            "actors": ["Customs", "Declarant"],
+            "documents": ["進口報單", "交易與估價相關資料"],
+            "newbieTip": "分類、完稅價格與稅費彼此相關，資料不一致時可能需要補充說明。"
+          },
+          "relatedTerms": [{ "label": "C/I", "query": "C/I" }],
+          "nextStepIds": ["air-duty-payment"],
+          "reviewStatus": "verified",
+          "differenceNote": "",
+          "uncertainties": []
+        },
+        {
+          "id": "air-duty-payment",
+          "displayOrder": 13,
+          "nodeType": "action",
+          "title": "繳納進口稅款",
+          "englishTitle": "Duty Payment",
+          "shortDescription": "完成應納稅費或核准的先放後稅程序。",
+          "detail": {
+            "whatHappens": "納稅義務人依稅款資訊完成繳納；符合條件的案件可能依先放後稅方式辦理。",
+            "actors": ["Consignee", "Declarant", "Customs"],
+            "documents": ["稅款繳納資訊"],
+            "newbieTip": "完成文件審核不等於已放行，仍要確認稅費狀態。"
+          },
+          "relatedTerms": [],
+          "nextStepIds": ["air-release"],
+          "reviewStatus": "verified",
+          "differenceNote": "",
+          "uncertainties": []
+        },
+        {
+          "id": "air-release",
+          "displayOrder": 14,
+          "nodeType": "terminal",
+          "title": "放行",
+          "englishTitle": "Release of Cargo",
+          "shortDescription": "海關將放行訊息傳送給報關人及貨棧。",
+          "detail": {
+            "whatHappens": "完成應辦程序後，海關傳送放行訊息，貨物才可進入提領作業。",
+            "actors": ["Customs", "Declarant", "Warehouse"],
+            "documents": ["放行通知"],
+            "newbieTip": "收到放行訊息後，仍需確認承運人與貨棧的提貨條件。"
+          },
+          "relatedTerms": [],
+          "nextStepIds": ["air-pickup"],
+          "reviewStatus": "verified",
+          "differenceNote": "",
+          "uncertainties": []
+        },
+        {
+          "id": "air-pickup",
+          "displayOrder": 15,
+          "nodeType": "terminal",
+          "title": "提領貨物",
+          "englishTitle": "Taking Delivery of Cargo",
+          "shortDescription": "持提貨單據向貨棧辦理提領。",
+          "detail": {
+            "whatHappens": "報關人或貨主依放行狀態及提貨文件，向貨棧完成貨物提領。",
+            "actors": ["Consignee", "Declarant", "Warehouse"],
+            "documents": ["放行通知", "提貨單據"],
+            "newbieTip": "海關放行、承運人放貨及貨棧提領是相互關聯但不同的作業狀態。"
+          },
+          "relatedTerms": [{ "label": "MAWB", "query": "MAWB" }, { "label": "HAWB", "query": "HAWB" }],
+          "nextStepIds": [],
+          "reviewStatus": "verified",
+          "differenceNote": "",
+          "uncertainties": []
+        }
+      ]
+    },
+    {
+      "id": "export-clearance",
+      "title": "出口通關",
+      "englishTitle": "Export Clearance Procedure",
+      "description": "出口報單資料進入海關後，依 C1、C2、C3 分流至放行、文件審核或貨物查驗。",
+      "sourceType": "reference-flowchart-and-official-guidance",
+      "reviewStatus": "verified",
+      "lastReviewed": "2026-08-15",
+      "sources": [
+        {
+          "title": "出口通關作業流程參考照片",
+          "type": "reference-image",
+          "reference": "1E729BC4-A9CC-4C9A-8649-2EFBBD8B55EC.jpeg"
+        },
+        {
+          "title": "出口貨物通關流程",
+          "type": "official-webpage",
+          "url": "https://web.customs.gov.tw/taipei/singlehtml/141?cntId=cus2_51146_141"
+        }
+      ],
+      "entryStepIds": ["export-declaration"],
+      "teachingStages": [
+        { "id": "export-stage-01", "title": "出口申報", "nodeIds": ["export-declaration"] },
+        {
+          "id": "export-stage-02",
+          "title": "電腦篩選",
+          "nodeIds": ["export-selectivity"],
+          "prompt": {
+            "question": "出口報單篩選後會出現哪三種通關方式？",
+            "answer": "C1 免審免驗、C2 文件審核、C3 文件審核及貨物查驗。",
+            "answerNodeIds": ["export-c1", "export-c2", "export-c3"]
+          }
+        },
+        { "id": "export-stage-03", "title": "C1／C2／C3", "nodeIds": ["export-c1", "export-c2", "export-c3"] },
+        { "id": "export-stage-04", "title": "貨物查驗", "nodeIds": ["export-examination"] },
+        { "id": "export-stage-05", "title": "分類估價", "nodeIds": ["export-valuation"] },
+        { "id": "export-stage-06", "title": "放行", "nodeIds": ["export-release"] }
+      ],
+      "flowEdges": [
+        { "fromStepId": "export-declaration", "toStepId": "export-selectivity" },
+        { "fromStepId": "export-selectivity", "toStepId": "export-c1", "label": "C1" },
+        { "fromStepId": "export-selectivity", "toStepId": "export-c2", "label": "C2" },
+        { "fromStepId": "export-selectivity", "toStepId": "export-c3", "label": "C3" },
+        { "fromStepId": "export-c1", "toStepId": "export-release", "label": "免審免驗" },
+        { "fromStepId": "export-c2", "toStepId": "export-valuation", "label": "文件審核" },
+        { "fromStepId": "export-c3", "toStepId": "export-examination", "label": "查驗" },
+        { "fromStepId": "export-examination", "toStepId": "export-valuation" },
+        { "fromStepId": "export-valuation", "toStepId": "export-release" }
+      ],
+      "steps": [
+        {
+          "id": "export-declaration",
+          "displayOrder": 1,
+          "nodeType": "input",
+          "title": "傳輸出口報單資料",
+          "englishTitle": "Transmission of Declaration",
+          "shortDescription": "出口人或受委任報關人將出口報單資料傳送至海關。",
+          "detail": {
+            "whatHappens": "出口報單資料以電子傳輸方式進入通關網路，交由海關系統受理。",
+            "actors": ["Exporter", "Declarant", "Customs Broker"],
+            "documents": ["出口報單"],
+            "newbieTip": "先核對出口報單的貨名、數量及運輸資料是否一致。"
+          },
+          "relatedTerms": [{ "label": "C/I", "query": "C/I" }, { "label": "P/L", "query": "P/L" }],
+          "nextStepIds": ["export-selectivity"],
+          "reviewStatus": "verified",
+          "differenceNote": "",
+          "uncertainties": []
+        },
+        {
+          "id": "export-selectivity",
+          "displayOrder": 2,
+          "nodeType": "decision",
+          "title": "海關電腦篩選",
+          "englishTitle": "Computer Cargo Selectivity System",
+          "shortDescription": "海關系統將報單核定為 C1、C2 或 C3。",
+          "detail": {
+            "whatHappens": "海關系統完成通關方式篩選，決定是否需要書面審核及貨物查驗。",
+            "actors": ["Customs"],
+            "documents": ["出口報單"],
+            "newbieTip": "不同通關方式會走不同分支，最終都以海關放行為關鍵節點。"
+          },
+          "relatedTerms": [],
+          "nextStepIds": ["export-c1", "export-c2", "export-c3"],
+          "reviewStatus": "verified",
+          "differenceNote": "",
+          "uncertainties": []
+        },
+        {
+          "id": "export-c1",
+          "displayOrder": 3,
+          "nodeType": "clearance-route",
+          "clearanceCode": "C1",
+          "title": "免審免驗通關",
+          "englishTitle": "Bypass",
+          "shortDescription": "免書面審核、免貨物查驗，進入放行。",
+          "detail": {
+            "whatHappens": "C1 出口報單原則上直接放行；海關仍可能依抽核結果要求補送資料。",
+            "actors": ["Exporter", "Declarant", "Customs"],
+            "documents": ["出口報單"],
+            "newbieTip": "C1 放行後仍應保存申報與裝運紀錄，供後續核對。"
+          },
+          "relatedTerms": [],
+          "nextStepIds": ["export-release"],
+          "reviewStatus": "verified",
+          "differenceNote": "",
+          "uncertainties": []
+        },
+        {
+          "id": "export-c2",
+          "displayOrder": 4,
+          "nodeType": "clearance-route",
+          "clearanceCode": "C2",
+          "title": "文件審核",
+          "englishTitle": "Document Review",
+          "shortDescription": "經書面文件審核後進入分類估價及放行。",
+          "detail": {
+            "whatHappens": "C2 為應審免驗報單，海關進行書面審核，不查驗貨物。",
+            "actors": ["Exporter", "Declarant", "Customs"],
+            "documents": ["書面出口報單", "相關證明文件"],
+            "newbieTip": "主圖未另畫文件審核方塊，C2 節點本身即代表文件審核路徑。"
+          },
+          "relatedTerms": [{ "label": "C/I", "query": "C/I" }, { "label": "P/L", "query": "P/L" }],
+          "nextStepIds": ["export-valuation"],
+          "reviewStatus": "verified",
+          "differenceNote": "",
+          "uncertainties": []
+        },
+        {
+          "id": "export-c3",
+          "displayOrder": 5,
+          "nodeType": "clearance-route",
+          "clearanceCode": "C3",
+          "title": "文件審核＋貨物查驗",
+          "englishTitle": "Document Review & Cargo Examination",
+          "shortDescription": "進行書面審核並查驗出口貨物。",
+          "detail": {
+            "whatHappens": "C3 為應審應驗報單，海關進行書面審核及貨物查驗。",
+            "actors": ["Exporter", "Customs Broker", "Customs", "Warehouse"],
+            "documents": ["書面出口報單", "查驗相關文件"],
+            "newbieTip": "應事先確認貨物位置與可供查驗的狀態。"
+          },
+          "relatedTerms": [{ "label": "P/L", "query": "P/L" }],
+          "nextStepIds": ["export-examination"],
+          "reviewStatus": "verified",
+          "differenceNote": "",
+          "uncertainties": []
+        },
+        {
+          "id": "export-examination",
+          "displayOrder": 6,
+          "nodeType": "action",
+          "title": "驗貨",
+          "englishTitle": "Cargo Examination",
+          "shortDescription": "海關核對實際出口貨物與申報內容。",
+          "detail": {
+            "whatHappens": "海關查驗貨物後，案件進入後續分類估價與放行處理。",
+            "actors": ["Customs", "Customs Broker", "Warehouse"],
+            "documents": ["出口報單", "查驗相關資料"],
+            "newbieTip": "文件內容、包裝標示與實際貨物應保持一致。"
+          },
+          "relatedTerms": [{ "label": "P/L", "query": "P/L" }],
+          "nextStepIds": ["export-valuation"],
+          "reviewStatus": "verified",
+          "differenceNote": "",
+          "uncertainties": []
+        },
+        {
+          "id": "export-valuation",
+          "displayOrder": 7,
+          "nodeType": "action",
+          "title": "分類估價",
+          "englishTitle": "Classification & Valuation",
+          "shortDescription": "完成出口案件的分類及估價審核。",
+          "detail": {
+            "whatHappens": "依參考流程圖，C2 與 C3 案件經分類估價後進入放行。",
+            "actors": ["Customs"],
+            "documents": ["出口報單", "相關交易與貨物資料"],
+            "newbieTip": "分類估價是審核階段，尚未收到放行訊息前不可視為完成通關。"
+          },
+          "relatedTerms": [{ "label": "C/I", "query": "C/I" }],
+          "nextStepIds": ["export-release"],
+          "reviewStatus": "verified",
+          "differenceNote": "",
+          "uncertainties": []
+        },
+        {
+          "id": "export-release",
+          "displayOrder": 8,
+          "nodeType": "terminal",
+          "title": "放行",
+          "englishTitle": "Release",
+          "shortDescription": "海關完成案件處理並核發放行。",
+          "detail": {
+            "whatHappens": "C1、C2、C3 各分支完成應辦程序後匯入放行節點。",
+            "actors": ["Customs", "Exporter", "Customs Broker"],
+            "documents": ["放行訊息"],
+            "newbieTip": "放行後仍須配合承運人、倉儲與實際裝運安排。"
+          },
+          "relatedTerms": [{ "label": "ETD", "query": "ETD" }],
+          "nextStepIds": [],
+          "reviewStatus": "verified",
+          "differenceNote": "",
+          "uncertainties": []
+        }
+      ]
+    },
+    {
+      "id": "bonded-cargo",
+      "title": "保稅貨物通關",
+      "englishTitle": "Bonded Cargo Clearance",
+      "description": "保稅貨物由申報、海關篩選、審核或查驗，到分估課稅、放行及提領的教育流程。",
+      "sourceType": "reference-flowchart-and-official-guidance",
+      "reviewStatus": "verified",
+      "lastReviewed": "2026-08-15",
+      "sources": [
+        {
+          "title": "保稅貨物通關流程參考照片",
+          "type": "reference-image",
+          "reference": "7726D7F3-E8B5-431E-9FB5-92559E1849D0.jpeg"
+        },
+        {
+          "title": "保稅倉庫貨物通關",
+          "type": "official-webpage",
+          "url": "https://web.customs.gov.tw/taipei/singlehtml/142?cntId=cus2_51131_142"
+        },
+        {
+          "title": "D8 報單 C3 查驗說明",
+          "type": "official-webpage",
+          "url": "https://web.customs.gov.tw/singlehtml/1207?cntId=bce5fd53829349c9b70e7fe100dc8127"
+        }
+      ],
+      "entryStepIds": ["bonded-declaration", "bonded-manifest", "bonded-paper-declaration"],
+      "teachingStages": [
+        { "id": "bonded-stage-01", "title": "申報資料", "nodeIds": ["bonded-declaration", "bonded-manifest", "bonded-paper-declaration"] },
+        { "id": "bonded-stage-02", "title": "資料進入海關", "nodeIds": ["bonded-network", "bonded-registration"] },
+        {
+          "id": "bonded-stage-03",
+          "title": "篩選通關方式",
+          "nodeIds": ["bonded-selectivity"],
+          "prompt": {
+            "question": "保稅貨物抽中 C3 時，可以等到日後出倉再查驗嗎？",
+            "answer": "以 D8 進儲案件為例，C3 應在通關放行並進儲保稅倉前完成實體查驗。",
+            "answerNodeIds": ["bonded-c1", "bonded-c2", "bonded-c3"]
+          }
+        },
+        { "id": "bonded-stage-04", "title": "C1／C2／C3", "nodeIds": ["bonded-c1", "bonded-c2", "bonded-c3"] },
+        { "id": "bonded-stage-05", "title": "補送書面報單", "nodeIds": ["bonded-paper-followup"] },
+        { "id": "bonded-stage-06", "title": "查驗貨物", "nodeIds": ["bonded-examination"] },
+        { "id": "bonded-stage-07", "title": "分類估價課稅", "nodeIds": ["bonded-valuation"] },
+        { "id": "bonded-stage-08", "title": "稅款程序", "nodeIds": ["bonded-duty-payment"] },
+        { "id": "bonded-stage-09", "title": "放行與准單", "nodeIds": ["bonded-release"] },
+        { "id": "bonded-stage-10", "title": "提領或進出倉", "nodeIds": ["bonded-pickup"] }
+      ],
+      "flowEdges": [
+        { "fromStepId": "bonded-declaration", "toStepId": "bonded-network" },
+        { "fromStepId": "bonded-manifest", "toStepId": "bonded-network" },
+        { "fromStepId": "bonded-paper-declaration", "toStepId": "bonded-registration" },
+        { "fromStepId": "bonded-network", "toStepId": "bonded-selectivity" },
+        { "fromStepId": "bonded-registration", "toStepId": "bonded-selectivity" },
+        { "fromStepId": "bonded-selectivity", "toStepId": "bonded-c1", "label": "C1" },
+        { "fromStepId": "bonded-selectivity", "toStepId": "bonded-c2", "label": "C2" },
+        { "fromStepId": "bonded-selectivity", "toStepId": "bonded-c3", "label": "C3" },
+        { "fromStepId": "bonded-c1", "toStepId": "bonded-duty-payment", "label": "C1" },
+        { "fromStepId": "bonded-c2", "toStepId": "bonded-paper-followup", "label": "C2" },
+        { "fromStepId": "bonded-c3", "toStepId": "bonded-paper-followup", "label": "C3" },
+        { "fromStepId": "bonded-paper-followup", "toStepId": "bonded-valuation", "label": "C2" },
+        { "fromStepId": "bonded-paper-followup", "toStepId": "bonded-examination", "label": "C3" },
+        { "fromStepId": "bonded-examination", "toStepId": "bonded-valuation" },
+        { "fromStepId": "bonded-valuation", "toStepId": "bonded-duty-payment" },
+        { "fromStepId": "bonded-duty-payment", "toStepId": "bonded-release" },
+        { "fromStepId": "bonded-release", "toStepId": "bonded-pickup" }
+      ],
+      "steps": [
+        {
+          "id": "bonded-declaration",
+          "displayOrder": 1,
+          "nodeType": "input",
+          "title": "報關人傳輸報單資料",
+          "englishTitle": "Electronic Declaration Data Transmission",
+          "shortDescription": "報關人以連線方式傳輸保稅貨物報單資料。",
+          "detail": {
+            "whatHappens": "依貨物流向使用適用報單類別，將申報資料傳送至海關。",
+            "actors": ["Declarant", "Customs Broker", "Bonded Warehouse Operator"],
+            "documents": ["D2、D7、D8 等適用報單"],
+            "newbieTip": "D2、D7、D8 代表不同貨物流向，不能只因都是保稅貨物就任意互換。"
+          },
+          "relatedTerms": [{ "label": "C/I", "query": "C/I" }, { "label": "P/L", "query": "P/L" }],
+          "nextStepIds": ["bonded-network"],
+          "reviewStatus": "verified",
+          "differenceNote": "保稅案件須先確認貨物是進儲、轉儲或出倉進口。",
+          "uncertainties": []
+        },
+        {
+          "id": "bonded-manifest",
+          "displayOrder": 2,
+          "nodeType": "input",
+          "title": "運輸業者傳輸艙單資料",
+          "englishTitle": "Manifest Data Transmission",
+          "shortDescription": "運輸業者將相關艙單資料傳送至海關。",
+          "detail": {
+            "whatHappens": "外貨進儲保稅倉或物流中心時，艙單資料會與申報資料一起進入通關處理。",
+            "actors": ["Cargo Carrier", "Customs"],
+            "documents": ["進口艙單"],
+            "newbieTip": "確認報單所引用的運輸資料與艙單一致。"
+          },
+          "relatedTerms": [{ "label": "B/L", "query": "B/L" }, { "label": "MAWB", "query": "MAWB" }],
+          "nextStepIds": ["bonded-network"],
+          "reviewStatus": "verified",
+          "differenceNote": "",
+          "uncertainties": []
+        },
+        {
+          "id": "bonded-paper-declaration",
+          "displayOrder": 3,
+          "nodeType": "input",
+          "title": "報關人投遞書面報單",
+          "englishTitle": "Hard Copy Declaration",
+          "shortDescription": "非連線案件以書面資料交由海關收單建檔。",
+          "detail": {
+            "whatHappens": "海關收取書面報單並建立案件資料，使案件進入後續篩選。",
+            "actors": ["Declarant", "Customs"],
+            "documents": ["書面報單", "報關必備文件"],
+            "newbieTip": "書面建檔後仍會依 C1、C2、C3 分流。"
+          },
+          "relatedTerms": [],
+          "nextStepIds": ["bonded-registration"],
+          "reviewStatus": "verified",
+          "differenceNote": "",
+          "uncertainties": []
+        },
+        {
+          "id": "bonded-network",
+          "displayOrder": 4,
+          "nodeType": "system",
+          "title": "通關網路",
+          "englishTitle": "Value Added Network",
+          "shortDescription": "接收連線報單與艙單資料。",
+          "detail": {
+            "whatHappens": "電子報單及艙單資料經通關網路進入海關系統。",
+            "actors": ["Declarant", "Cargo Carrier", "Customs"],
+            "documents": [],
+            "newbieTip": "資料成功傳輸後仍需等待海關收單及篩選結果。"
+          },
+          "relatedTerms": [],
+          "nextStepIds": ["bonded-selectivity"],
+          "reviewStatus": "verified",
+          "differenceNote": "",
+          "uncertainties": []
+        },
+        {
+          "id": "bonded-registration",
+          "displayOrder": 5,
+          "nodeType": "system",
+          "title": "海關人員收單建檔",
+          "englishTitle": "Declaration Registration",
+          "shortDescription": "海關受理非連線資料並完成建檔。",
+          "detail": {
+            "whatHappens": "書面案件由海關人員收單及鍵檔，再交由系統篩選。",
+            "actors": ["Customs"],
+            "documents": ["書面報單"],
+            "newbieTip": "收單只是開始，後續仍可能需要補件或查驗。"
+          },
+          "relatedTerms": [],
+          "nextStepIds": ["bonded-selectivity"],
+          "reviewStatus": "verified",
+          "differenceNote": "",
+          "uncertainties": []
+        },
+        {
+          "id": "bonded-selectivity",
+          "displayOrder": 6,
+          "nodeType": "decision",
+          "title": "海關電腦（專家系統篩選通關方式）",
+          "englishTitle": "Clearance Type Selectivity",
+          "shortDescription": "海關系統核定 C1、C2 或 C3。",
+          "detail": {
+            "whatHappens": "保稅貨物報單同樣由海關系統篩選通關方式。",
+            "actors": ["Customs"],
+            "documents": ["適用保稅報單"],
+            "newbieTip": "保稅身分不會自動排除文件審核或貨物查驗。"
+          },
+          "relatedTerms": [],
+          "nextStepIds": ["bonded-c1", "bonded-c2", "bonded-c3"],
+          "reviewStatus": "verified",
+          "differenceNote": "",
+          "uncertainties": []
+        },
+        {
+          "id": "bonded-c1",
+          "displayOrder": 7,
+          "nodeType": "clearance-route",
+          "clearanceCode": "C1",
+          "title": "免審免驗通關",
+          "englishTitle": "Bypass",
+          "shortDescription": "免文件審核及貨物查驗，進入稅款與放行程序。",
+          "detail": {
+            "whatHappens": "C1 案件不經書面審核與實體查驗，依案件性質進入後續稅款或放行處理。",
+            "actors": ["Declarant", "Customs", "Bonded Warehouse Operator"],
+            "documents": ["適用保稅報單"],
+            "newbieTip": "是否實際課徵稅款取決於報單類別與貨物流向，流程圖以共用稅款節點表示。"
+          },
+          "relatedTerms": [],
+          "nextStepIds": ["bonded-duty-payment"],
+          "reviewStatus": "verified",
+          "differenceNote": "保稅轉儲或進儲案件的稅款處理可能與完稅進口不同。",
+          "uncertainties": []
+        },
+        {
+          "id": "bonded-c2",
+          "displayOrder": 8,
+          "nodeType": "clearance-route",
+          "clearanceCode": "C2",
+          "title": "文件審核",
+          "englishTitle": "Document Review",
+          "shortDescription": "連線案件補送書面報單及相關文件。",
+          "detail": {
+            "whatHappens": "C2 案件由報關人補送書面報單及相關文件，完成審核後進入分類估價課稅。",
+            "actors": ["Declarant", "Customs Broker", "Customs"],
+            "documents": ["書面報單", "報關必備文件"],
+            "newbieTip": "補送文件應與連線申報內容一致。"
+          },
+          "relatedTerms": [{ "label": "C/I", "query": "C/I" }, { "label": "P/L", "query": "P/L" }],
+          "nextStepIds": ["bonded-paper-followup"],
+          "reviewStatus": "verified",
+          "differenceNote": "",
+          "uncertainties": []
+        },
+        {
+          "id": "bonded-c3",
+          "displayOrder": 9,
+          "nodeType": "clearance-route",
+          "clearanceCode": "C3",
+          "title": "文件審核＋貨物查驗",
+          "englishTitle": "Document Review & Cargo Examination",
+          "shortDescription": "補送文件並完成貨物實體查驗。",
+          "detail": {
+            "whatHappens": "C3 案件須補送書面資料並進行實體查驗，再完成審核與分類估價。D8 進儲案件須在進儲保稅倉前完成查驗及通關放行。",
+            "actors": ["Declarant", "Customs Broker", "Customs", "Bonded Warehouse Operator"],
+            "documents": ["書面報單", "報關必備文件", "查驗相關資料"],
+            "newbieTip": "不可把 D8 的 C3 實體查驗延後到日後 D2 出倉進口時才辦理。"
+          },
+          "relatedTerms": [{ "label": "P/L", "query": "P/L" }],
+          "nextStepIds": ["bonded-paper-followup"],
+          "reviewStatus": "verified",
+          "differenceNote": "保稅貨物放行後還有進倉、出倉或轉儲管控。",
+          "uncertainties": []
+        },
+        {
+          "id": "bonded-paper-followup",
+          "displayOrder": 10,
+          "nodeType": "action",
+          "title": "報關人翌日補送書面報單",
+          "englishTitle": "Hard Copy Declaration Follow-up",
+          "shortDescription": "C2、C3 連線案件補送書面報單及相關文件。",
+          "detail": {
+            "whatHappens": "依通關方式通知補送書面報單及相關文件，供海關審核。",
+            "actors": ["Declarant", "Customs Broker", "Customs"],
+            "documents": ["書面報單", "報關必備文件"],
+            "newbieTip": "先確認海關通知與補送期限，再核對紙本和連線資料。"
+          },
+          "relatedTerms": [{ "label": "C/I", "query": "C/I" }, { "label": "P/L", "query": "P/L" }],
+          "nextStepIds": ["bonded-valuation", "bonded-examination"],
+          "reviewStatus": "verified",
+          "differenceNote": "C2 前往分類估價課稅；C3 先進入貨物查驗。",
+          "uncertainties": []
+        },
+        {
+          "id": "bonded-examination",
+          "displayOrder": 11,
+          "nodeType": "action",
+          "title": "查驗貨物",
+          "englishTitle": "Cargo Examination",
+          "shortDescription": "海關核對保稅貨物實到內容與申報資料。",
+          "detail": {
+            "whatHappens": "海關對 C3 貨物進行實體查驗，確認標記、數量及申報內容。",
+            "actors": ["Customs", "Customs Broker", "Bonded Warehouse Operator"],
+            "documents": ["查驗相關資料", "適用保稅報單"],
+            "newbieTip": "D8 案件應先完成此步驟及放行，貨物才能進儲保稅倉。"
+          },
+          "relatedTerms": [{ "label": "P/L", "query": "P/L" }],
+          "nextStepIds": ["bonded-valuation"],
+          "reviewStatus": "verified",
+          "differenceNote": "查驗完成不等於已完成進儲或出倉。",
+          "uncertainties": []
+        },
+        {
+          "id": "bonded-valuation",
+          "displayOrder": 12,
+          "nodeType": "action",
+          "title": "分類估價課稅",
+          "englishTitle": "Tariff Classification, Valuation & Duty Calculation",
+          "shortDescription": "完成貨品分類、估價及適用稅款處理。",
+          "detail": {
+            "whatHappens": "海關完成審核與分類估價，依報單類別及貨物流向處理相關稅款。",
+            "actors": ["Customs", "Declarant"],
+            "documents": ["適用保稅報單", "交易與估價資料"],
+            "newbieTip": "保稅進儲、轉儲及出倉進口的稅款結果可能不同，應先辨識報單類別。"
+          },
+          "relatedTerms": [{ "label": "C/I", "query": "C/I" }],
+          "nextStepIds": ["bonded-duty-payment"],
+          "reviewStatus": "verified",
+          "differenceNote": "保稅狀態與完稅進口的稅款處理不同。",
+          "uncertainties": []
+        },
+        {
+          "id": "bonded-duty-payment",
+          "displayOrder": 13,
+          "nodeType": "action",
+          "title": "稅款相關程序",
+          "englishTitle": "Duty Procedure",
+          "shortDescription": "依報單類別及貨物流向完成適用的稅款處理。",
+          "detail": {
+            "whatHappens": "完稅進口案件須完成繳稅；進儲或轉儲案件則依保稅規定處理。",
+            "actors": ["Declarant", "Consignee", "Customs"],
+            "documents": ["稅款或保稅處理資訊"],
+            "newbieTip": "參考圖以繳納進口稅款呈現，但不同保稅報單不一定都在此時實際繳稅。"
+          },
+          "relatedTerms": [],
+          "nextStepIds": ["bonded-release"],
+          "reviewStatus": "verified",
+          "differenceNote": "此節點刻意使用稅款相關程序，避免把所有保稅流向誤解為立即完稅。",
+          "uncertainties": []
+        },
+        {
+          "id": "bonded-release",
+          "displayOrder": 14,
+          "nodeType": "terminal",
+          "title": "放行及列印准單",
+          "englishTitle": "Release & Permit Printing",
+          "shortDescription": "海關放行後，依 D2、D7、D8 等案件取得適用通知或准單。",
+          "detail": {
+            "whatHappens": "案件完成通關後，倉庫或物流中心依放行通知或准單辦理後續進出倉及運送管控。",
+            "actors": ["Customs", "Declarant", "Bonded Warehouse Operator"],
+            "documents": ["放行通知", "進儲或出倉准單", "D2、D7、D8 適用文件"],
+            "newbieTip": "准單類別應與貨物流向一致：D8 常見於外貨進儲，D7 用於保稅區間轉儲，D2 用於保稅貨物出倉進口。"
+          },
+          "relatedTerms": [],
+          "nextStepIds": ["bonded-pickup"],
+          "reviewStatus": "verified",
+          "differenceNote": "一般進口著重放行提貨；保稅流程還包含進儲、轉儲、出倉及帳務管控。",
+          "uncertainties": []
+        },
+        {
+          "id": "bonded-pickup",
+          "displayOrder": 15,
+          "nodeType": "terminal",
+          "title": "提領或辦理進出倉",
+          "englishTitle": "Cargo Delivery or Warehouse Movement",
+          "shortDescription": "依放行結果完成提貨、進儲、轉儲或出倉。",
+          "detail": {
+            "whatHappens": "倉庫業者依放行通知或准單核對貨物，辦理適用的進倉、出倉、轉儲或提領。",
+            "actors": ["Consignee", "Declarant", "Bonded Warehouse Operator"],
+            "documents": ["放行通知", "准單", "提貨或運送文件"],
+            "newbieTip": "通關放行後仍要完成保稅帳務及倉儲管控，才能結束該段實務作業。"
+          },
+          "relatedTerms": [{ "label": "B/L", "query": "B/L" }, { "label": "MAWB", "query": "MAWB" }],
+          "nextStepIds": [],
+          "reviewStatus": "verified",
+          "differenceNote": "保稅流程的終點可能是進儲或轉儲，不一定是進口人直接提貨。",
+          "uncertainties": []
+        }
+      ]
+    }
+  ]
+};
