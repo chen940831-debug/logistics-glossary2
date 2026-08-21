@@ -12,110 +12,83 @@
     <header class="bg-indigo-950 text-white shadow-lg sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
             <a href="index.html" class="flex items-center gap-3 rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-white" aria-label="返回名詞查詢首頁">
-                <span class="bg-indigo-600 p-2.5 rounded-xl shadow-inner" aria-hidden="true">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-                    </svg>
-                </span>
-                <span>
-                    <span class="block text-xl font-bold tracking-wide">海空運物流縮寫小幫手</span>
-                    <span class="block text-xs text-indigo-300 mt-0.5">文件範本展示</span>
-                </span>
+                <span class="bg-indigo-600 p-2.5 rounded-xl shadow-inner" aria-hidden="true">✈</span>
+                <span><span class="block text-xl font-bold tracking-wide">海空運物流縮寫小幫手</span><span class="block text-xs text-indigo-300 mt-0.5">文件範本展示</span></span>
             </a>
             <nav class="flex flex-wrap items-center justify-center gap-2" aria-label="頁面導覽">
-                <a href="clearance-map.html" class="inline-flex items-center bg-indigo-900/80 hover:bg-indigo-800 text-indigo-100 text-xs px-3 py-2 rounded-lg border border-indigo-700/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-white">
-                    通關流程
-                </a>
-                <a href="market-map.html" class="inline-flex items-center bg-indigo-900/80 hover:bg-indigo-800 text-indigo-100 text-xs px-3 py-2 rounded-lg border border-indigo-700/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-white">
-                    物流產業版圖
-                </a>
-                <a href="learning-map.html" class="inline-flex items-center bg-indigo-900/80 hover:bg-indigo-800 text-indigo-100 text-xs px-3 py-2 rounded-lg border border-indigo-700/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-white">
-                    新手學習地圖
-                </a>
-                <a href="index.html" class="inline-flex items-center bg-white/10 hover:bg-white/20 text-white text-xs px-3 py-2 rounded-lg border border-indigo-700/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-white">
-                    名詞查詢
-                </a>
+                <a href="clearance-map.html" class="document-nav-link">通關流程</a>
+                <a href="market-map.html" class="document-nav-link">物流產業版圖</a>
+                <a href="learning-map.html" class="document-nav-link">新手學習地圖</a>
+                <a href="index.html" class="document-nav-link document-nav-current">名詞查詢</a>
             </nav>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full">
-        <section class="max-w-3xl mx-auto text-center mb-7" aria-labelledby="pageTitle">
-            <p class="text-xs font-bold tracking-[0.2em] text-indigo-600 uppercase mb-2">Document Template Learning</p>
-            <h1 id="pageTitle" class="text-3xl md:text-4xl font-black text-indigo-950">文件範本展示</h1>
-            <p class="mt-3 text-sm md:text-base text-slate-600 leading-relaxed">
-                透過文件預覽與欄位說明，快速理解物流文件的用途及填寫重點。
-            </p>
+    <main class="document-page flex-grow">
+        <section class="document-intro" aria-labelledby="pageTitle">
+            <p class="document-eyebrow">Document Template Learning</p>
+            <h1 id="pageTitle">文件範本展示</h1>
+            <p>四份已去識別的空白訓練範本，供辨識文件版面與欄位使用。</p>
         </section>
 
-        <div class="max-w-4xl mx-auto mb-7 rounded-2xl bg-amber-50 border border-amber-200 p-4 flex items-start gap-3" role="note">
-            <span class="text-xl" aria-hidden="true">⚠</span>
-            <div>
-                <p class="font-black text-amber-900">全頁皆為教學假資料</p>
-                <p class="mt-1 text-xs leading-5 text-amber-800">
-                    SAMPLE、DEMO、XX 及無效編號均為佔位內容，不代表任何真實客戶、報價、貨物、航班、船舶或提單。
-                </p>
-            </div>
+        <div class="document-notice" role="note">
+            <span aria-hidden="true">⚠</span>
+            <p>僅供個人學習</p>
         </div>
 
-        <section aria-labelledby="documentSelectorTitle">
-            <h2 id="documentSelectorTitle" class="sr-only">選擇文件範本</h2>
-            <div id="documentTabs" class="document-tabs" role="tablist" aria-label="文件範本選擇"></div>
-        </section>
+        <section id="documentViewer" class="document-viewer" aria-labelledby="viewerTitle">
+            <div class="viewer-toolbar">
+                <div class="viewer-control-group" aria-label="文件與縮放控制">
+                    <button id="previousDocument" class="viewer-icon-button" type="button" aria-label="上一份文件" title="上一份文件">‹</button>
+                    <button id="nextDocument" class="viewer-icon-button" type="button" aria-label="下一份文件" title="下一份文件">›</button>
+                    <span class="viewer-divider" aria-hidden="true"></span>
+                    <button id="zoomOut" class="viewer-icon-button" type="button" aria-label="縮小預覽" title="縮小預覽">−</button>
+                    <output id="zoomLevel" class="viewer-zoom-level" aria-live="polite">100%</output>
+                    <button id="zoomIn" class="viewer-icon-button" type="button" aria-label="放大預覽" title="放大預覽">＋</button>
+                    <button id="fitWidth" class="viewer-text-button" type="button">符合寬度</button>
+                </div>
+                <div class="viewer-control-group viewer-control-group-end">
+                    <span id="documentPosition" class="viewer-position" aria-live="polite">1 / 4</span>
+                    <a id="openPreview" class="viewer-icon-button viewer-link-button" target="_blank" rel="noopener" aria-label="在新分頁開啟 PDF" title="在新分頁開啟 PDF">↗</a>
+                    <button id="toggleFullscreen" class="viewer-icon-button" type="button" aria-label="切換全螢幕" aria-pressed="false" title="切換全螢幕">⛶</button>
+                </div>
+            </div>
 
-        <section id="documentPanel" class="mt-6" role="tabpanel" aria-labelledby="documentEnglishName">
-            <div class="grid lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] gap-6 items-start">
-                <aside class="document-preview-card" aria-label="文件範本預覽">
-                    <div class="document-sample-banner">TRAINING SAMPLE · NOT FOR SHIPPING</div>
-                    <div class="px-5 py-5 border-b border-slate-200">
-                        <p id="documentAbbreviation" class="text-xs font-black tracking-widest text-indigo-600"></p>
-                        <h2 id="documentEnglishName" class="mt-1 text-xl font-black text-indigo-950"></h2>
-                        <p id="documentChineseName" class="mt-1 text-sm font-semibold text-slate-500"></p>
-                    </div>
-                    <div id="documentPreviewFields" class="p-5 grid gap-2"></div>
-                </aside>
+            <div id="documentTabs" class="document-tabs" role="tablist" aria-label="切換文件範本"></div>
 
-                <article class="space-y-5">
-                    <section class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
-                        <h3 class="text-sm font-black text-indigo-950">文件用途</h3>
-                        <p id="documentPurpose" class="mt-2 text-sm leading-6 text-slate-600"></p>
-                        <h3 class="mt-5 text-sm font-black text-indigo-950">何時使用</h3>
-                        <p id="documentWhenUsed" class="mt-2 text-sm leading-6 text-slate-600"></p>
-                    </section>
+            <div id="documentStage" class="document-stage">
+                <button id="stagePrevious" class="viewer-edge-button viewer-edge-previous" type="button" aria-label="上一份文件">‹</button>
+                <div id="documentFrameShell" class="document-frame-shell">
+                    <iframe id="documentFrame" class="document-frame" title="文件範本預覽"></iframe>
+                </div>
+                <button id="stageNext" class="viewer-edge-button viewer-edge-next" type="button" aria-label="下一份文件">›</button>
+            </div>
 
-                    <section class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
-                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                            <h3 class="text-sm font-black text-indigo-950">常見欄位說明</h3>
-                            <p class="text-xs text-slate-400">點擊欄位可對照左側預覽</p>
-                        </div>
-                        <div id="documentFieldExplanations" class="mt-4 grid gap-2"></div>
-                    </section>
-
-                    <section class="grid md:grid-cols-2 gap-5">
-                        <div class="bg-rose-50 border border-rose-200 rounded-2xl p-5">
-                            <h3 class="text-sm font-black text-rose-900">常見錯誤</h3>
-                            <ul id="documentErrors" class="mt-3 space-y-2 text-xs leading-5 text-rose-800"></ul>
-                        </div>
-                        <div class="bg-indigo-50 border border-indigo-200 rounded-2xl p-5">
-                            <h3 class="text-sm font-black text-indigo-950">相關縮寫</h3>
-                            <div id="documentAbbreviations" class="mt-3 flex flex-wrap gap-2"></div>
-                        </div>
-                    </section>
-                </article>
+            <div class="viewer-caption">
+                <div>
+                    <p id="viewerMeta" class="viewer-meta"></p>
+                    <h2 id="viewerTitle"></h2>
+                    <p id="viewerChineseTitle" class="viewer-chinese-title"></p>
+                </div>
+                <a id="downloadDocument" class="document-download" download>下載 DOCX</a>
             </div>
         </section>
 
-        <noscript>
-            <p class="mt-6 rounded-2xl bg-red-50 border border-red-200 p-4 text-sm text-red-800">
-                此頁面需要啟用 JavaScript 才能顯示文件範本。
-            </p>
-        </noscript>
+        <section class="document-information" aria-labelledby="informationTitle">
+            <div>
+                <h2 id="informationTitle">文件用途</h2>
+                <p id="documentPurpose"></p>
+                <h3>何時使用</h3>
+                <p id="documentWhenUsed"></p>
+            </div>
+            <div>
+                <h2>可辨識欄位</h2>
+                <ul id="documentFields" class="document-field-list"></ul>
+            </div>
+        </section>
     </main>
 
-    <footer class="bg-slate-900 text-slate-400 text-center text-xs py-5 px-4">
-        本頁僅供物流入門教學。實際文件格式、欄位與簽發要求應依交易、承運人及主管機關規定確認。
-    </footer>
-
+    <footer class="bg-slate-900 text-slate-400 text-center text-xs py-5 px-4">本頁僅供物流入門教學。正式作業仍應以公司 SOP、承運人與主管機關規定為準。</footer>
     <script src="data/document-templates.js"></script>
     <script src="assets/document-templates.js"></script>
 </body>
