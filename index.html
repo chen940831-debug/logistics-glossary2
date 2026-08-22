@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/design-system.css?v=4">
     <link rel="stylesheet" href="assets/styles.css?v=4">
-    <link rel="stylesheet" href="assets/home.css?v=4">
+    <link rel="stylesheet" href="assets/home.css?v=5">
 </head>
 <body class="home-page bg-slate-100 text-slate-800 min-h-screen flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
 
@@ -46,6 +46,27 @@
 
     <main id="mainContent" class="home-main">
         <section id="top" class="home-hero" aria-labelledby="homeHeroTitle">
+            <div class="home-hero-visual home-hero-visual--ship" aria-hidden="true">
+                <svg viewBox="0 0 420 220" role="presentation">
+                    <path class="hero-ship-shadow" d="M32 151h326l-31 40H68c-17 0-29-12-36-40Z"></path>
+                    <path class="hero-ship-hull" d="M30 145h350l-39 48H70c-19 0-33-17-40-48Z"></path>
+                    <path class="hero-ship-deck" d="M80 128h244l27 17H48l32-17Z"></path>
+                    <path class="hero-ship-cabin" d="M226 66h75v62h-75z"></path>
+                    <path class="hero-ship-cabin-top" d="M211 58h103v10H211z"></path>
+                    <path class="hero-ship-crane" d="M108 128V45h8v83M112 48h66v7h-66M174 52l-38 76h-8l38-76Z"></path>
+                    <path class="hero-ship-window" d="M238 78h51v12h-51zM238 98h51v12h-51z"></path>
+                    <circle class="hero-ship-light" cx="342" cy="139" r="5"></circle>
+                </svg>
+            </div>
+            <div class="home-hero-visual home-hero-visual--plane" aria-hidden="true">
+                <svg viewBox="0 0 360 220" role="presentation">
+                    <path class="hero-plane-shadow" d="M42 126h278l-20 16H65Z"></path>
+                    <path class="hero-plane-body" d="M47 111 188 98l113-42 14 9-75 51 62 11-7 12-84-7-36 31-13-5 18-29-118-5Z"></path>
+                    <path class="hero-plane-wing" d="m170 102 43-72 14 3-20 69 88 7-3 13-104-6-37 31-12-5 24-39Z"></path>
+                    <path class="hero-plane-tail" d="m75 109 20-48 11 2-3 46Z"></path>
+                    <path class="hero-plane-window" d="m211 86 51-19 6 4-48 22Z"></path>
+                </svg>
+            </div>
             <div class="home-reading-width">
                 <p class="home-eyebrow">國際物流新人學習手冊</p>
                 <h1 id="homeHeroTitle">第一次接觸物流，也不用一次全部記住。</h1>

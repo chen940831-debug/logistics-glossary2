@@ -118,10 +118,117 @@
 }
 
 .home-hero {
+    position: relative;
+    overflow: hidden;
     padding: var(--space-24) 1rem var(--space-20);
     background: var(--color-surface);
     border-bottom: 1px solid var(--color-border);
     scroll-margin-top: 6rem;
+}
+
+.home-hero-visual {
+    position: absolute;
+    z-index: 0;
+    width: clamp(12rem, 27vw, 25rem);
+    pointer-events: none;
+    opacity: 0;
+    filter: drop-shadow(0 1rem 1.35rem rgb(20 33 61 / 0.2));
+    transform: perspective(900px) translateZ(0);
+}
+
+.home-hero-visual svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.home-hero-visual--ship {
+    top: 22%;
+    left: max(-5rem, calc(50% - 42rem));
+    transform: perspective(900px) rotateY(8deg) translateX(-8rem) scale(0.92);
+}
+
+.home-hero-visual--plane {
+    top: 24%;
+    right: max(-4rem, calc(50% - 42rem));
+    transform: perspective(900px) rotateY(-12deg) translateX(8rem) scale(0.9);
+}
+
+.hero-ship-hull,
+.hero-ship-shadow,
+.hero-ship-deck,
+.hero-ship-cabin,
+.hero-ship-cabin-top,
+.hero-ship-crane,
+.hero-ship-window,
+.hero-ship-light,
+.hero-plane-body,
+.hero-plane-wing,
+.hero-plane-tail,
+.hero-plane-window,
+.hero-plane-shadow {
+    vector-effect: non-scaling-stroke;
+}
+
+.hero-ship-hull,
+.hero-ship-cabin,
+.hero-plane-body {
+    fill: #14213d;
+}
+
+.hero-ship-shadow,
+.hero-plane-shadow {
+    fill: #d4a017;
+    opacity: 0.75;
+}
+
+.hero-ship-deck,
+.hero-ship-cabin-top,
+.hero-ship-crane,
+.hero-ship-window,
+.hero-plane-wing,
+.hero-plane-tail,
+.hero-plane-window {
+    fill: #64748b;
+}
+
+.hero-ship-light {
+    fill: #d4a017;
+}
+
+.home-reading-width {
+    position: relative;
+    z-index: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .home-hero-visual--ship {
+        animation: home-hero-ship-in 700ms cubic-bezier(0.22, 1, 0.36, 1) 120ms forwards;
+    }
+
+    .home-hero-visual--plane {
+        animation: home-hero-plane-in 700ms cubic-bezier(0.22, 1, 0.36, 1) 180ms forwards;
+    }
+}
+
+@keyframes home-hero-ship-in {
+    to {
+        opacity: 0.95;
+        transform: perspective(900px) rotateY(8deg) translateX(0) scale(0.92);
+    }
+}
+
+@keyframes home-hero-plane-in {
+    to {
+        opacity: 0.9;
+        transform: perspective(900px) rotateY(-12deg) translateX(0) scale(0.9);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .home-hero-visual {
+        opacity: 0.75;
+    }
 }
 
 .home-reading-width {
@@ -739,6 +846,23 @@
     .home-hero {
         padding: var(--space-16) 0.75rem var(--space-12);
         scroll-margin-top: 8.5rem;
+    }
+
+    .home-hero-visual {
+        width: 10rem;
+        opacity: 0.22;
+        animation: none;
+        transform: none;
+    }
+
+    .home-hero-visual--ship {
+        top: 3.5rem;
+        left: -4.5rem;
+    }
+
+    .home-hero-visual--plane {
+        top: 3.8rem;
+        right: -4.5rem;
     }
 
     .home-hero h1 {
