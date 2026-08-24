@@ -310,6 +310,16 @@ window.LOGISTICS_TERMS = [
     "scenario": "工廠卸貨卸太久，超過 7 天 免費 Detention 天數，船公司開始追繳 Detention 費。"
   },
   {
+    "code": "AWB",
+    "fullName": "Air Waybill",
+    "category": "Air",
+    "zhName": "空運提單",
+    "explanation": "空運貨物的重要運輸文件，用來記載託運人、收貨人、起訖地、路由、件數與重量等運送資訊。依簽發關係，常見母概念下包含 MAWB 與 HAWB。",
+    "scenario": "新手核對一票空運貨時，先確認看到的是航空公司簽發的 MAWB，或貨運承攬業者簽發的 HAWB。",
+    "childTerms": ["MAWB", "HAWB"],
+    "reviewStatus": "needs-review"
+  },
+  {
     "code": "MAWB",
     "fullName": "Master Air Waybill",
     "category": "Air",

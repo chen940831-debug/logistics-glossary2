@@ -424,6 +424,19 @@ function openDetailModal(code) {
                 </p>
             </div>
 
+            ${Array.isArray(item.childTerms) && item.childTerms.length ? `
+            <div class="mt-4 border-t border-slate-200 pt-4">
+                <h4 class="font-bold text-sm text-slate-900 mb-2">相關子類型</h4>
+                <div class="flex flex-wrap gap-2">
+                    ${item.childTerms.map(childCode => `
+                        <button type="button" onclick="openDetailModal('${childCode}')" class="px-3 py-2 rounded-lg border border-slate-300 text-sm font-bold text-indigo-900 hover:border-indigo-500 hover:bg-indigo-50">
+                            ${childCode}
+                        </button>
+                    `).join('')}
+                </div>
+            </div>
+            ` : ''}
+
             ${item.scenario ? `
             <div class="mt-4">
                 <h4 class="font-bold text-xs text-slate-900 mb-1 flex items-center gap-1">

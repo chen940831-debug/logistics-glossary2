@@ -69,7 +69,7 @@
             </div>
             <div class="home-reading-width">
                 <p class="home-eyebrow">國際物流新人學習手冊</p>
-                <h1 id="homeHeroTitle">第一次接觸物流，也不用一次全部記住。</h1>
+                <h1 id="homeHeroTitle">物流學習網站</h1>
                 <p class="home-hero-lead">從一個名詞、一份文件、一票貨開始理解國際物流。</p>
 
                 <form class="home-search" role="search" onsubmit="event.preventDefault(); revealGlossary()">
@@ -93,33 +93,29 @@
 
         <section class="home-section home-entry-section" aria-labelledby="startHeading">
             <div class="home-section-heading">
-                <p class="home-eyebrow">Start here</p>
-                <h2 id="startHeading">你想從哪裡開始？</h2>
-                <p>先選擇眼前最需要解決的問題，再逐步延伸。</p>
+                <p class="home-eyebrow">Quick access</p>
+                <h2 id="startHeading">我現在想找什麼？</h2>
+                <p>這些是工具捷徑，可以依眼前需求直接前往。</p>
             </div>
             <div class="home-entry-grid">
                 <a href="#glossary" class="home-entry-card">
-                    <span class="home-entry-number">01</span>
                     <h3>查一個名詞</h3>
                     <p>遇到看不懂的縮寫，先找出基本意思與使用情境。</p>
                     <span class="home-text-link">開始查詢 <span aria-hidden="true">→</span></span>
                 </a>
-                <a href="clearance-map.html" class="home-entry-card">
-                    <span class="home-entry-number">02</span>
-                    <h3>看一票貨怎麼走</h3>
-                    <p>從資料申報、通關到放行與提領，掌握流程主幹。</p>
-                    <span class="home-text-link">查看流程 <span aria-hidden="true">→</span></span>
-                </a>
                 <a href="documents.html" class="home-entry-card">
-                    <span class="home-entry-number">03</span>
-                    <h3>認識一份文件</h3>
+                    <h3>看一份文件</h3>
                     <p>從 Invoice、Packing List、AWB 與 B/L 開始閱讀。</p>
                     <span class="home-text-link">查看文件 <span aria-hidden="true">→</span></span>
                 </a>
+                <a href="clearance-map.html" class="home-entry-card">
+                    <h3>查看通關流程</h3>
+                    <p>從資料申報、通關到放行與提領，掌握流程主幹。</p>
+                    <span class="home-text-link">查看流程 <span aria-hidden="true">→</span></span>
+                </a>
                 <a href="market-map.html" class="home-entry-card">
-                    <span class="home-entry-number">04</span>
-                    <h3>了解產業版圖</h3>
-                    <p>認識台灣物流業者、航空公司與全球物流網路。</p>
+                    <h3>了解產業</h3>
+                    <p>先認識物流角色，再延伸閱讀企業與市場資料。</p>
                     <span class="home-text-link">查看產業 <span aria-hidden="true">→</span></span>
                 </a>
             </div>
@@ -129,24 +125,40 @@
             <div class="home-section-heading home-section-heading--left">
                 <p class="home-eyebrow">Recommended path</p>
                 <h2 id="routeHeading">新手推薦學習路線</h2>
-                <p>依照工作中最常遇到的順序，建立基本認知。</p>
+                <p>先建立角色概念，再連結流程與文件。名詞查詢會貫穿整個學習過程，不需要先背完才開始。</p>
             </div>
             <ol class="home-learning-route">
                 <li>
                     <span>01</span>
-                    <div><strong>認識 Freight Forwarder</strong><p>先知道貨運承攬商在整段運輸中扮演的角色。</p></div>
+                    <a class="home-route-link" href="market-map.html#role-map">
+                        <strong>認識物流角色</strong>
+                        <p>先理解 Shipper、Forwarder、Carrier、Customs 與 Consignee 如何合作。</p>
+                        <em>開始認識角色 →</em>
+                    </a>
                 </li>
                 <li>
                     <span>02</span>
-                    <div><strong>看完整運輸流程</strong><p>理解貨物、文件與資訊如何從起點移動到目的地。</p></div>
+                    <a class="home-route-link" href="clearance-map.html">
+                        <strong>看一票貨怎麼走</strong>
+                        <p>理解貨物、文件與資訊如何從起點移動到目的地。</p>
+                        <em>查看通關流程 →</em>
+                    </a>
                 </li>
                 <li>
                     <span>03</span>
-                    <div><strong>認識常見文件</strong><p>練習辨認每份文件的用途與重要欄位。</p></div>
+                    <a class="home-route-link" href="documents.html">
+                        <strong>認識實務文件</strong>
+                        <p>練習辨認每份文件的用途與重要欄位。</p>
+                        <em>查看文件範本 →</em>
+                    </a>
                 </li>
                 <li>
                     <span>04</span>
-                    <div><strong>學會常見縮寫</strong><p>把每天看到的縮寫逐步放回流程與文件情境。</p></div>
+                    <a class="home-route-link" href="#glossary">
+                        <strong>遇到名詞隨時查</strong>
+                        <p>把每天看到的縮寫逐步放回流程與文件情境。</p>
+                        <em>前往名詞查詢 →</em>
+                    </a>
                 </li>
             </ol>
         </section>

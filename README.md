@@ -1,7 +1,10 @@
-# 海空運物流縮寫小幫手
+# Logistics Starter Guide
 
-提供空運、海運及國際貿易新手查詢常見英文縮寫、
-完整英文名稱、中文說明與實務使用情境。
+國際物流新人學習手冊。從角色、流程、文件與常見名詞建立物流基礎。
+
+## Live Demo
+
+https://chen940831-debug.github.io/logistics-glossary2/
 
 ## 目前功能
 
@@ -11,6 +14,7 @@
 - 翻牌學習模式
 - 瀏覽器本機收藏
 - 錯誤回報介面
+- 物流角色關係圖與一票貨新手導覽
 - 物流產業版圖與公開資料規模比較
 - 通關流程學習地圖，支援新手教學與完整流程模式
 - 已去識別的空白文件訓練範本，支援搜尋、分類、欄位詳情與下載
@@ -21,6 +25,22 @@
 - JavaScript
 - Tailwind CSS CDN
 - LocalStorage
+
+## Local Development
+
+本專案不需要 build。建議使用本機 HTTP server，才能驗證 JSON fetch：
+
+```powershell
+python -m http.server 8000
+```
+
+開啟 `http://localhost:8000/`。直接開啟 `index.html` 時，網站會使用 `data/*.js` fallback。
+
+## 角色資料維護
+
+`data/roles.json` 是角色、角色關係及新手導覽的正式資料；`data/roles.js` 是直接開啟 HTML 時使用的 fallback，兩者必須同步。角色使用 stable id。流程角色顯示文字透過 `actorAliases` 對應，`Declarant` 等不明確角色不得直接歸類。
+
+Role Map 會從 `data/clearance-processes.json` 的 `detail.actors` 與 `data/document-templates.json` 的 `roleIds` 建立反向索引。請勿在 `roles.json` 重複維護流程或文件清單。
 
 ## 市場資料維護
 

@@ -3,42 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="用公開資料理解全球主要貨運承攬業者、台灣物流集團規模及台驊集團定位。">
-    <title>物流產業版圖｜海空運物流縮寫小幫手</title>
+    <meta name="description" content="先理解國際物流角色如何合作，再延伸閱讀物流企業與公開市場資料。">
+    <title>產業與角色｜Logistics Starter Guide</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/design-system.css?v=4">
     <link rel="stylesheet" href="assets/styles.css">
     <link rel="stylesheet" href="assets/market-map.css">
+    <link rel="stylesheet" href="assets/role-map.css">
 </head>
 <body class="market-page bg-slate-100 text-slate-800 min-h-screen flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
-    <header class="bg-indigo-950 text-white shadow-lg sticky top-0 z-40">
-        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <a href="index.html" class="flex items-center gap-3 rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-white" aria-label="返回名詞查詢首頁">
-                <span class="bg-indigo-600 p-2.5 rounded-xl shadow-inner" aria-hidden="true">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <header class="site-header">
+        <div class="site-header-shell">
+            <a href="index.html" class="site-brand" aria-label="Logistics Starter Guide 首頁">
+                <span class="site-brand-mark" aria-hidden="true">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
                     </svg>
                 </span>
                 <span>
-                    <span class="block text-xl font-bold tracking-wide">海空運物流縮寫小幫手</span>
-                    <span class="block text-xs text-indigo-300 mt-0.5">物流產業版圖</span>
+                    <strong>Logistics Starter Guide</strong>
+                    <small>國際物流新人學習手冊</small>
                 </span>
             </a>
-            <nav class="flex flex-wrap items-center justify-center gap-2" aria-label="頁面導覽">
-                <a href="learning-map.html" class="market-nav-link">新手學習地圖</a>
-                <a href="documents.html" class="market-nav-link">文件範本</a>
-                <a href="index.html" class="market-nav-link market-nav-link--primary">名詞查詢</a>
+            <nav class="site-nav" aria-label="主要導覽">
+                <a href="index.html">首頁</a>
+                <a href="index.html#glossary">名詞</a>
+                <a href="clearance-map.html">流程</a>
+                <a href="documents.html">文件</a>
+                <a href="market-map.html" aria-current="page">產業</a>
             </nav>
         </div>
     </header>
 
     <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full">
-        <section class="max-w-4xl mx-auto text-center mb-7" aria-labelledby="pageTitle">
-            <p class="text-xs font-bold tracking-[0.2em] text-indigo-600 uppercase mb-2">Logistics Industry Map</p>
-            <h1 id="pageTitle" class="text-3xl md:text-4xl font-black text-indigo-950">物流產業版圖</h1>
-            <p class="market-intro mt-3 text-slate-600 leading-relaxed">
-                以公開財報比較國際主要物流業者，以及中菲行、台驊與捷迅的營收規模。
-            </p>
+        <section id="role-map" class="role-section" aria-labelledby="roleMapTitle">
+            <div class="role-hero">
+                <p class="role-eyebrow">Logistics Role Map</p>
+                <h1 id="roleMapTitle">一票貨，會經過哪些人？</h1>
+                <p>從 Shipper 到 Consignee，先認識國際物流中最常遇到的角色，以及他們彼此如何合作。</p>
+                <div class="role-actions">
+                    <button id="startRoleJourney" class="role-primary-button" type="button">開始跟著一票貨走</button>
+                    <a class="role-secondary-button" href="#market-data">查看市場資料</a>
+                </div>
+            </div>
+
+            <p id="roleDisclaimer" class="role-disclaimer" role="note">正在載入角色說明…</p>
+
+            <div id="roleMap" class="role-map-shell">
+                <section class="role-map-panel" aria-labelledby="roleExplorerTitle">
+                    <header class="role-map-panel-header">
+                        <div>
+                            <h2 id="roleExplorerTitle">角色關係圖</h2>
+                            <p>選擇角色或連線，查看角色職責與互動方式。</p>
+                        </div>
+                        <span id="roleMapStatus" class="role-review-state" role="status" aria-live="polite">正在載入角色資料…</span>
+                    </header>
+                    <div id="roleDesktopMap" class="role-desktop-map" aria-label="國際物流角色關係圖"></div>
+                    <div id="roleMobileMap" class="role-mobile-map" aria-label="國際物流角色關係圖手機版"></div>
+                    <p id="roleRelationshipSummary" class="role-relationship-summary" aria-live="polite">選擇一條關係線，查看角色如何互動。</p>
+                    <p id="roleLoadError" class="role-load-error" role="alert" hidden>角色資料暫時無法載入，市場資料仍可繼續閱讀。</p>
+                </section>
+
+                <aside id="roleDetailPanel" class="role-detail-panel" aria-live="polite" aria-labelledby="activeRoleTitle">
+                    <p>請選擇一個角色。</p>
+                </aside>
+            </div>
+
+            <section id="roleJourneyPanel" class="role-journey-panel" aria-labelledby="roleJourneyTitle" hidden>
+                <header class="role-journey-header">
+                    <div>
+                        <p class="role-detail-kicker">Beginner journey</p>
+                        <h2>跟著一票貨看角色</h2>
+                    </div>
+                    <span id="roleJourneyProgress" class="role-journey-progress"></span>
+                </header>
+                <div class="role-journey-content">
+                    <h3 id="roleJourneyTitle"></h3>
+                    <p id="roleJourneySummary"></p>
+                    <div id="roleJourneyRoles" class="role-journey-roles"></div>
+                    <p id="roleJourneyDisclaimer" class="role-disclaimer"></p>
+                </div>
+                <div class="role-journey-controls">
+                    <button id="roleJourneyPrevious" class="role-secondary-button" type="button">← 上一步</button>
+                    <div>
+                        <button id="closeRoleJourney" class="role-secondary-button" type="button">結束教學</button>
+                        <button id="roleJourneyNext" class="role-primary-button" type="button">下一步 →</button>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <section id="market-data" class="industry-data-divider" aria-labelledby="pageTitle">
+            <p class="role-eyebrow">Industry Data</p>
+            <h2 id="pageTitle">市場資料與企業規模</h2>
+            <p>理解主要角色之後，再以公開資料閱讀國際物流業者與台灣物流集團的規模。</p>
             <p id="dataFreshness" class="mt-3 text-xs text-slate-500"></p>
         </section>
 
@@ -125,7 +183,12 @@
         本頁供物流新人教育使用。數據需搭配年份、範圍、單位與來源閱讀，實際市場狀況以最新正式資料為準。
     </footer>
 
+    <script src="data/roles.js"></script>
+    <script src="data/clearance-processes.js?v=3"></script>
+    <script src="data/document-templates.js"></script>
+    <script src="data/terms.js"></script>
     <script src="data/market-data.js"></script>
+    <script src="assets/role-map.js"></script>
     <script src="assets/market-map.js"></script>
 </body>
 </html>

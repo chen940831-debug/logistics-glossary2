@@ -666,7 +666,9 @@
             state.data = data;
             renderProcessCards();
             elements.dataStatus.textContent = `已載入 ${data.processes.length} 條流程`;
-            selectProcess(data.processes[0].id);
+            const requestedProcessId = new URLSearchParams(window.location.search).get('process');
+            const requestedProcess = data.processes.find(process => process.id === requestedProcessId);
+            selectProcess((requestedProcess || data.processes[0]).id);
         } catch (error) {
             console.error('[Clearance Map] Failed to initialize:', error);
             elements.dataStatus.textContent = '載入失敗';

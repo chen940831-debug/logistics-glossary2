@@ -1,0 +1,50 @@
+// Fallback for direct file opening when JSON fetch is unavailable.
+window.LOGISTICS_ROLE_DATA_FALLBACK = {
+  "schemaVersion": "1.0.0",
+  "dataType": "logistics-roles",
+  "lastReviewed": null,
+  "reviewStatuses": ["verified", "needs-review"],
+  "disclaimer": "本頁使用簡化的新手示意模型。實際參與角色與互動方式會依空運或海運、進出口、貿易條件、公司作業方式及委任範圍不同。",
+  "actorAliases": [
+    {"sourceValue": "Customs", "roleId": "customs", "matchType": "exact"},
+    {"sourceValue": "Customs Broker", "roleId": "customs-broker", "matchType": "exact"},
+    {"sourceValue": "Warehouse", "roleId": "warehouse", "matchType": "exact"},
+    {"sourceValue": "Bonded Warehouse Operator", "roleId": "warehouse", "matchType": "subtype"},
+    {"sourceValue": "Consignee", "roleId": "consignee", "matchType": "exact"},
+    {"sourceValue": "Cargo Carrier", "roleId": "carrier", "matchType": "subtype"},
+    {"sourceValue": "Airline", "roleId": "carrier", "matchType": "subtype"},
+    {"sourceValue": "Exporter", "roleId": "shipper", "matchType": "contextual"}
+  ],
+  "roles": [
+    {"id":"shipper","name":"Shipper","chineseName":"託運人／出貨方","shortDescription":"提出出貨需求，並提供貨物與文件資訊的一方。","beginnerExplanation":"Shipper 通常是貨物起運端的出貨方。依交易與委任方式不同，文件上的 Shipper、出口人與實際賣方可能不是同一個法人。","mainResponsibilities":["確認貨物、數量、包裝與預定出貨時間","提供運輸與報關所需的基本資料","依約定完成交貨及必要文件準備"],"relatedTerms":["EXW","FCA","FOB","HAWB"],"exampleQuestions":["貨物何時可以交運？","文件上的出貨人資料是否一致？"],"reviewStatus":"needs-review"},
+    {"id":"consignee","name":"Consignee","chineseName":"收貨人","shortDescription":"在目的地接收貨物或取得貨物交付權利的一方。","beginnerExplanation":"Consignee 是運輸文件上的收貨人。實際負責進口申報、付款或提領貨物的人，仍要依交易與文件安排確認。","mainResponsibilities":["確認到貨通知與收貨資料","配合提供進口或提領所需文件","安排稅費、放貨及目的地交付事項"],"relatedTerms":["Arrival Notice","POD","CIF","DDP"],"exampleQuestions":["誰有權取得貨物？","目的地需要哪些提領文件？"],"reviewStatus":"needs-review"},
+    {"id":"freight-forwarder","name":"Freight Forwarder","chineseName":"貨運承攬業者","shortDescription":"協助客戶規劃、安排並協調國際貨物運輸的角色。","beginnerExplanation":"Freight Forwarder 經常位在多方協作的中央，協助安排訂艙、文件、運輸與海外聯繫。實際承辦範圍依委託內容與公司服務不同。","mainResponsibilities":["理解客戶需求並規劃運輸安排","向承運人詢價、訂艙及追蹤運輸狀態","協調文件、報關、倉儲與目的地作業","與海外代理或目的地承攬商交換資訊"],"relatedTerms":["MAWB","HAWB","FCL","LCL","ETD","ETA"],"exampleQuestions":["這票貨要走空運還是海運？","訂艙與文件由誰協調？"],"reviewStatus":"needs-review"},
+    {"id":"carrier","name":"Carrier","chineseName":"承運人","shortDescription":"實際提供主要運輸容量並承運貨物的業者。","beginnerExplanation":"Carrier 提供飛機、船舶或相關運輸容量。貨運承攬業者通常向 Carrier 訂艙並協調貨物交運，但雙方責任仍依運送契約而定。","mainResponsibilities":["提供並管理主要運輸容量","接受訂艙與貨物交運","執行運輸並提供運輸狀態","依運送安排交接目的地作業"],"carrierVariants":[{"mode":"Air","name":"Airline / Air Cargo Carrier","chineseName":"航空公司／航空貨運承運人"},{"mode":"Sea","name":"Shipping Line / Ocean Carrier","chineseName":"船公司／海運承運人"}],"relatedTerms":["AWB","MAWB","B/L","ULD","FCL"],"exampleQuestions":["誰實際提供航空或海運運力？","貨物何時交給承運人？"],"reviewStatus":"needs-review"},
+    {"id":"customs-broker","name":"Customs Broker","chineseName":"報關業者","shortDescription":"受委託協助準備、傳輸與處理報關資料的專業角色。","beginnerExplanation":"Customs Broker 依委任範圍協助申報、補件與查驗聯繫。報關人、申報人與貨運承攬業者在不同案件中可能是不同角色。","mainResponsibilities":["核對申報所需資料與文件","依委任內容傳輸或遞送報關資料","協助處理補件、審核與查驗聯繫","回報通關狀態及待辦事項"],"relatedTerms":["C1","C2","C3","HS Code","Duty"],"exampleQuestions":["申報資料由誰送交海關？","收到補件通知後由誰處理？"],"reviewStatus":"needs-review"},
+    {"id":"customs","name":"Customs","chineseName":"海關","shortDescription":"依法辦理貨物申報受理、審核、查驗、稅費與放行等作業的機關。","beginnerExplanation":"Customs 依申報資料及相關規定處理通關。海關放行、承運人放貨與倉棧提領是相互關聯但不同的作業狀態。","mainResponsibilities":["接收並處理申報資料","執行通關方式篩選、文件審核或貨物查驗","辦理分類估價、稅費與放行相關作業"],"relatedTerms":["C1","C2","C3","Customs Clearance","Duty"],"exampleQuestions":["這票貨屬於哪一種通關方式？","海關放行是否已完成？"],"reviewStatus":"needs-review"},
+    {"id":"warehouse","name":"Warehouse","chineseName":"倉庫／倉棧","shortDescription":"在貨物交運、通關或提領前後提供收貨、保管與交接的作業場所。","beginnerExplanation":"Warehouse 負責貨物實體收貨、存放與交接。保稅倉庫、航空貨運站及一般倉庫的資格與作業範圍並不相同。","mainResponsibilities":["接收、保管及盤點貨物","依指示安排貨物交接或提領","配合查驗、理貨或裝載作業","回報貨物狀態與異常"],"relatedTerms":["CY","CFS","Demurrage","Detention"],"exampleQuestions":["貨物目前存放在哪裡？","何時可以進倉或提領？"],"reviewStatus":"needs-review"},
+    {"id":"overseas-agent","name":"Overseas Agent / Destination Forwarder","chineseName":"海外代理／目的地承攬商","shortDescription":"在目的地協助接續文件、到貨、通關協調與交付安排的合作角色。","beginnerExplanation":"Overseas Agent 或 Destination Forwarder 協助起運地與目的地之間交換作業資訊。是否參與及負責範圍，會依服務網路與委任方式不同。","mainResponsibilities":["接收並核對目的地作業資訊","協調到貨通知、通關或交付安排","與起運地承攬商及收貨人交換進度","處理目的地異常及文件需求"],"relatedTerms":["ETA","Arrival Notice","POD","D/O"],"exampleQuestions":["目的地由誰接續聯繫？","到貨通知與交付由誰協調？"],"reviewStatus":"needs-review"}
+  ],
+  "relationships": [
+    {"id":"shipper-forwarder","fromRoleId":"shipper","toRoleId":"freight-forwarder","direction":"two-way","summary":"提出出貨需求，交換貨物、時程及文件資訊。","reviewStatus":"needs-review"},
+    {"id":"forwarder-carrier","fromRoleId":"freight-forwarder","toRoleId":"carrier","direction":"two-way","summary":"詢價、訂艙、交運並追蹤主要運輸狀態。","reviewStatus":"needs-review"},
+    {"id":"forwarder-broker","fromRoleId":"freight-forwarder","toRoleId":"customs-broker","direction":"two-way","summary":"交換申報文件、作業時程與通關狀態。","reviewStatus":"needs-review"},
+    {"id":"broker-customs","fromRoleId":"customs-broker","toRoleId":"customs","direction":"two-way","summary":"依委任辦理申報，並處理海關回覆、補件或查驗事項。","reviewStatus":"needs-review"},
+    {"id":"forwarder-warehouse","fromRoleId":"freight-forwarder","toRoleId":"warehouse","direction":"two-way","summary":"協調進倉、保管、交接、查驗與提領時間。","reviewStatus":"needs-review"},
+    {"id":"carrier-warehouse","fromRoleId":"carrier","toRoleId":"warehouse","direction":"two-way","summary":"交接貨物與運輸狀態，安排裝載或目的地提領。","reviewStatus":"needs-review"},
+    {"id":"carrier-overseas","fromRoleId":"carrier","toRoleId":"overseas-agent","direction":"two-way","summary":"銜接到貨資訊、文件與目的地作業安排。","reviewStatus":"needs-review"},
+    {"id":"overseas-consignee","fromRoleId":"overseas-agent","toRoleId":"consignee","direction":"two-way","summary":"通知到貨，確認目的地文件、費用與交付安排。","reviewStatus":"needs-review"}
+  ],
+  "guidedJourney": {
+    "title":"跟著一票貨走",
+    "disclaimer":"這是一個簡化的新手示意模型。實際角色與順序會依空運或海運、進出口、Incoterms、公司作業方式、報關委任及海外代理安排不同。",
+    "stages":[
+      {"id":"journey-shipper","roleIds":["shipper"],"title":"從出貨需求開始","summary":"Shipper 提出出貨需求，準備貨物並提供基本資料。","nextRoleIds":["freight-forwarder"]},
+      {"id":"journey-forwarder","roleIds":["freight-forwarder"],"title":"安排與協調運輸","summary":"Freight Forwarder 協助規劃運輸、訂艙並協調文件與合作角色。","nextRoleIds":["customs-broker","customs","carrier"]},
+      {"id":"journey-clearance","roleIds":["customs-broker","customs"],"title":"處理通關互動","summary":"依委任情況，Customs Broker 協助申報並與 Customs 處理審核、查驗或放行事項。","nextRoleIds":["carrier"]},
+      {"id":"journey-carrier","roleIds":["carrier"],"title":"執行主要運輸","summary":"Carrier 提供航空或海運容量並承運貨物。","nextRoleIds":["overseas-agent"]},
+      {"id":"journey-overseas","roleIds":["overseas-agent"],"title":"銜接目的地作業","summary":"Overseas Agent 或目的地承攬商協調到貨資訊與後續交付。","nextRoleIds":["consignee"]},
+      {"id":"journey-consignee","roleIds":["consignee"],"title":"完成目的地交付","summary":"Consignee 配合目的地文件、通關或提領安排並接收貨物。","nextRoleIds":[]}
+    ]
+  }
+};
